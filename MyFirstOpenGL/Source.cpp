@@ -286,8 +286,10 @@ void main() {
 		//Obtener referencia a offset
 		GLint offsetReference = glGetUniformLocation(myFirstCompiledProgram, "offset");
 
+		GLint windowSizeReference = glGetUniformLocation(myFirstCompiledProgram, "windowSize");
+
 		//Definimos color para limpiar el buffer de color
-		glClearColor(1.f, 0.f, 0.f, 1.f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
 
 		GLuint vaoPuntos, vboPuntos;
 
@@ -311,7 +313,7 @@ void main() {
 		};
 
 		//Definimos modo de dibujo para cada cara
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		//Ponemos los valores en el VBO creado
 		glBufferData(GL_ARRAY_BUFFER, sizeof(punto), punto, GL_STATIC_DRAW);
