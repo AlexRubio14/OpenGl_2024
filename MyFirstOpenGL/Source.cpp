@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <glm.hpp>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -132,9 +133,6 @@ GLuint CreateProgram(const ShaderProgram& shaders)
 
 void main()
 {
-	int iFrameBufferWidth = 0;
-	int iFrameBufferHeight = 0;
-
 	srand(static_cast<unsigned int>(time(NULL)));
 
 	//Inicializamos GLFW para gestionar ventanas e inputs
@@ -175,6 +173,9 @@ void main()
 		GLuint myFirstCompiledProgram;
 		myFirstCompiledProgram = CreateProgram(myFirstProgram);
 
+		//Obtengo referencia a la variable uniform
+		GLuint offsetReference = glGetUniformLocation(myFirstCompiledProgram, "_offset");
+
 		//Definimos color para limpiar el buffer de color
 		glClearColor(1.f, 0.f, 0.f, 1.f);
 
@@ -188,7 +189,6 @@ void main()
 
 		//Definimos cantidad de vbo a crear y donde almacenarlos
 		glGenBuffers(1, &vboPuntos);
-		glGenBuffers(1, &vboOffset);
 
 		//Indico que el VBO activo es el que acabo de crear y que almacenará un array. Todos los VBO que genere se asignaran al último VAO que he hecho glBindVertexArray
 		glBindBuffer(GL_ARRAY_BUFFER, vboPuntos);
@@ -217,9 +217,12 @@ void main()
 		//Limpiamos el VBO activo
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		//Configurar segundo VBO 
 
+		//Configurar segundo VBO 
 		
+		//Genero un nuevo VBO
+		glGenBuffers(1, &vboOffset);
+
 		//Configuramos el vbo activo
 		glBindBuffer(GL_ARRAY_BUFFER, vboOffset);
 
@@ -243,9 +246,14 @@ void main()
 		//Desvinculamos VAO
 		glBindVertexArray(0);
 
-
 		//We indicate which program the graphic card should use
 		glUseProgram(myFirstCompiledProgram);
+
+		//Al tocar una variable siempre siempre siempre ha de estar su programa en uso
+		glm::vec2 _offset = glm::vec2(0.4f, 0.5f);
+
+		glUniform2fv(offsetReference, 1, &_offset[0]);
+
 
 
 		//Generamos el game loop
