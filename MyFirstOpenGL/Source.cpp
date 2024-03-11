@@ -13,6 +13,7 @@ struct ShaderProgram {
 
 	GLuint vertexShader = 0;
 	GLuint geometryShader = 0;
+	GLuint fragmentShader = 0;
 };
 
 void Resize_Window(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHeight) {
@@ -128,6 +129,49 @@ GLuint LoadGeometryShader(const std::string& filePath) {
 	}
 }
 
+
+GLuint LoadFragmentShader(const std::string& filePath) {
+
+	// Crear un vertex shader
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	//Usamos la funcion creada para leer el vertex shader y almacenarlo 
+	std::string sShaderCode = Load_File(filePath);
+	const char* cShaderSource = sShaderCode.c_str();
+
+	//Vinculamos el vertex shader con su código fuente
+	glShaderSource(fragmentShader, 1, &cShaderSource, nullptr);
+
+	// Compilar el vertex shader
+	glCompileShader(fragmentShader);
+
+	// Verificar errores de compilación
+	GLint success;
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+	//Si la compilacion ha sido exitosa devolvemos el vertex shader
+	if (success) {
+
+		return fragmentShader;
+
+	}
+	else {
+
+		//Obtenemos longitud del log
+		GLint logLength;
+		glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &logLength);
+
+		//Obtenemos el log
+		std::vector<GLchar> errorLog(logLength);
+		glGetShaderInfoLog(fragmentShader, logLength, nullptr, errorLog.data());
+
+		//Mostramos el log y finalizamos programa
+		std::cerr << "Se ha producido un error al cargar el fragment shader:  " << errorLog.data() << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
+}
+
+
 //Función que dado un struct que contiene los shaders de un programa generara el programa entero de la GPU
 GLuint CreateProgram(const ShaderProgram& shaders) {
 
@@ -139,9 +183,14 @@ GLuint CreateProgram(const ShaderProgram& shaders) {
 		glAttachShader(program, shaders.vertexShader);
 	}
 
-	//Verificar que existe un vertex shader y adjuntarlo al programa
+	//Verificar que existe un geometry shader y adjuntarlo al programa
 	if (shaders.geometryShader != 0) {
 		glAttachShader(program, shaders.geometryShader);
+	}
+
+	//Verificar que existe un fragment shader y adjuntarlo al programa
+	if (shaders.fragmentShader != 0) {
+		glAttachShader(program, shaders.fragmentShader);
 	}
 
 	// Linkear el programa
@@ -162,6 +211,11 @@ GLuint CreateProgram(const ShaderProgram& shaders) {
 		//Liberamos recursos
 		if (shaders.geometryShader != 0) {
 			glDetachShader(program, shaders.geometryShader);
+		}
+
+		//Liberamos recursos
+		if (shaders.fragmentShader != 0) {
+			glDetachShader(program, shaders.fragmentShader);
 		}
 
 		return program;
@@ -223,6 +277,7 @@ void main() {
 		ShaderProgram myFirstProgram;
 		myFirstProgram.vertexShader = LoadVertexShader("My_First_Vertex_Shader.glsl");
 		myFirstProgram.geometryShader = LoadGeometryShader("MyFirstGeometryShader.glsl");
+		myFirstProgram.fragmentShader = LoadFragmentShader("MyFirstFragmentShader.glsl");
 
 		//Compilar programa
 		GLuint myFirstCompiledProgram;
