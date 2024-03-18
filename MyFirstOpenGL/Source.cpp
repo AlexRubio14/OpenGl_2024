@@ -16,7 +16,7 @@ std::vector<GLuint> compiledPrograms;
 struct GameObject {
 	glm::vec3 position = glm::vec3(0.f);
 	glm::vec3 rotation = glm::vec3(0.f);
-	glm::vec3 forward = glm::vec3(1.f, 0.f, 0.f);
+	glm::vec3 forward = glm::vec3(0.f, 1.f, 0.f);
 	float fVelocity = 0.01f;
 	float fAngularVelocity = -1.f;
 };
@@ -397,7 +397,7 @@ void main() {
 			cube.rotation = cube.rotation + glm::vec3(0.f, 1.f, 0.f) * cube.fAngularVelocity;
 
 			// Invierto direccion al llegar  a los limites
-			if (cube.position.x >= 0.5f || cube.position.x <= -0.5f) {
+			if (cube.position.y >= 0.5f || cube.position.y <= -0.5f) {
 				cube.forward = cube.forward * -1.f;
 			}
 
