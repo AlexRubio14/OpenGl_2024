@@ -32,7 +32,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="My_First_Vertex_Shader.glsl">
+    <None Include="MyFirstVertexShader.glsl">
       <Filter>Shaders\Vertex Shader</Filter>
     </None>
     <None Include="MyFirstGeometryShader.glsl">
