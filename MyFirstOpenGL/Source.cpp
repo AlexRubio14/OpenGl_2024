@@ -14,7 +14,7 @@
 std::vector<GLuint> compiledPrograms;
 
 struct GameObject {
-	glm::vec3 position = glm::vec3(0.f);
+	glm::vec3 position = glm::vec3(0.0f, 0.f, 0.f);
 	glm::vec3 rotation = glm::vec3(0.f);
 	glm::vec3 forward = glm::vec3(0.f, 1.f, 0.f);
 	float fVelocity = 0.01f;
@@ -47,7 +47,6 @@ glm::mat4 GenerateRotationMatrix(glm::vec3 axis, float fDegrees) {
 
 	return glm::rotate(glm::mat4(1.f), glm::radians(fDegrees), glm::normalize(axis));
 }
-
 
 //Funcion que devolvera una string con todo el archivo leido
 std::string Load_File(const std::string& filePath) {
@@ -114,7 +113,6 @@ GLuint LoadFragmentShader(const std::string& filePath) {
 		std::exit(EXIT_FAILURE);
 	}
 }
-
 
 GLuint LoadGeometryShader(const std::string& filePath) {
 
@@ -326,22 +324,22 @@ void main() {
 		//Indico que el VBO activo es el que acabo de crear y que almacenará un array. Todos los VBO que genere se asignaran al último VAO que he hecho glBindVertexArray
 		glBindBuffer(GL_ARRAY_BUFFER, vboPuntos);
 
-		//Posición X e Y del punto
+		// Posición X e Y del punto
 		GLfloat punto[] = {
-			-0.5f, +0.5f, -0.5f, // 3
-			+0.5f, +0.5f, -0.5f, // 2
-			-0.5f, -0.5f, -0.5f, // 6
-			+0.5f, -0.5f, -0.5f, // 7
-			+0.5f, -0.5f, +0.5f, // 4
-			+0.5f, +0.5f, -0.5f, // 2
-			+0.5f, +0.5f, +0.5f, // 0
-			-0.5f, +0.5f, -0.5f, // 3
-			-0.5f, +0.5f, +0.5f, // 1
-			-0.5f, -0.5f, -0.5f, // 6
-			-0.5f, -0.5f, +0.5f, // 5
-			+0.5f, -0.5f, +0.5f, // 4
-			-0.5f, +0.5f, +0.5f, // 1
-			+0.5f, +0.5f, +0.5f  // 0
+			-0.8f, +0.2f, -0.2f, // 3
+			-0.4f, +0.2f, -0.2f, // 2
+			-0.8f, -0.2f, -0.2f, // 6
+			-0.4f, -0.2f, -0.2f, // 7
+			-0.4f, -0.2f, +0.2f, // 4
+			-0.4f, +0.2f, -0.2f, // 2
+			-0.4f, +0.2f, +0.2f, // 0
+			-0.8f, +0.2f, -0.2f, // 3
+			-0.8f, +0.2f, +0.2f, // 1
+			-0.8f, -0.2f, -0.2f, // 6
+			-0.8f, -0.2f, +0.2f, // 5
+			-0.4f, -0.2f, +0.2f, // 4
+			-0.8f, +0.2f, +0.2f, // 1
+			-0.4f, +0.2f, +0.2f  // 0
 		};
 
 		//Definimos modo de dibujo para cada cara
@@ -390,10 +388,13 @@ void main() {
 			//Definimos que queremos usar el VAO con los puntos
 			glBindVertexArray(vaoPuntos);
 
-			glm::mat4 cubeModelMatrix = glm::mat4(1.f);
+			glm::mat4 cubeModelMatrix = glm::mat4(1.f); // matriz homogenea
 
 			// Aplico velocidad hacia el forward
 			cube.position = cube.position + cube.forward * cube.fVelocity;
+
+			cube.position.x = 0.6; //////////////////////////////////////////////////////// ALERTTTTTTTTTTTTTTTTTT
+
 			cube.rotation = cube.rotation + glm::vec3(0.f, 1.f, 0.f) * cube.fAngularVelocity;
 
 			// Invierto direccion al llegar  a los limites
@@ -405,8 +406,10 @@ void main() {
 			glm::mat4 cubeTranslationMatrix = GenerateTranslationMatrix(cube.position);
 			glm::mat4 rotationMatrix = GenerateRotationMatrix(glm::vec3(0.f, 1.f, 0.f), cube.rotation.y);
 
+
 			// Aplico la matriz de translacion
-			cubeModelMatrix = cubeTranslationMatrix * rotationMatrix * cubeModelMatrix;
+			cubeModelMatrix = rotationMatrix * cubeTranslationMatrix * cubeModelMatrix;
+ 
 
 			//Aplicamos la matriz al shader
 			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cubeModelMatrix));
