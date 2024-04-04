@@ -337,28 +337,46 @@ void main() {
 		//}; 
 
 		// ORTHOHEDRON
-		GLfloat punto[] = {
-			-0.2f, +0.6f, -0.2f, // 3
-			+0.2f, +0.6f, -0.2f, // 2
-			-0.2f, -0.6f, -0.2f, // 6
-			+0.2f, -0.6f, -0.2f, // 7
-			+0.2f, -0.6f, +0.2f, // 4
-			+0.2f, +0.6f, -0.2f, // 2
-			+0.2f, +0.6f, +0.2f, // 0
-			-0.2f, +0.6f, -0.2f, // 3
-			-0.2f, +0.6f, +0.2f, // 1
-			-0.2f, -0.6f, -0.2f, // 6
-			-0.2f, -0.6f, +0.2f, // 5
-			+0.2f, -0.6f, +0.2f, // 4
-			-0.2f, +0.6f, +0.2f, // 1
-			+0.2f, +0.6f, +0.2f  // 0
+		std::vector<GLfloat> punto = 
+		{
+		-0.2f, +0.6f, -0.2f, // 3
+		+0.2f, +0.6f, -0.2f, // 2
+		-0.2f, -0.6f, -0.2f, // 6
+		+0.2f, -0.6f, -0.2f, // 7
+		+0.2f, -0.6f, +0.2f, // 4
+		+0.2f, +0.6f, -0.2f, // 2
+		+0.2f, +0.6f, +0.2f, // 0
+		-0.2f, +0.6f, -0.2f, // 3
+		-0.2f, +0.6f, +0.2f, // 1
+		-0.2f, -0.6f, -0.2f, // 6
+		-0.2f, -0.6f, +0.2f, // 5
+		+0.2f, -0.6f, +0.2f, // 4
+		-0.2f, +0.6f, +0.2f, // 1
+		+0.2f, +0.6f, +0.2f  // 0
 		};
+
+		//GLfloat punto[] = {
+		//	-0.2f, +0.6f, -0.2f, // 3
+		//	+0.2f, +0.6f, -0.2f, // 2
+		//	-0.2f, -0.6f, -0.2f, // 6
+		//	+0.2f, -0.6f, -0.2f, // 7
+		//	+0.2f, -0.6f, +0.2f, // 4
+		//	+0.2f, +0.6f, -0.2f, // 2
+		//	+0.2f, +0.6f, +0.2f, // 0
+		//	-0.2f, +0.6f, -0.2f, // 3
+		//	-0.2f, +0.6f, +0.2f, // 1
+		//	-0.2f, -0.6f, -0.2f, // 6
+		//	-0.2f, -0.6f, +0.2f, // 5
+		//	+0.2f, -0.6f, +0.2f, // 4
+		//	-0.2f, +0.6f, +0.2f, // 1
+		//	+0.2f, +0.6f, +0.2f  // 0
+		//};
 
 		//Definimos modo de dibujo para cada cara
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 		//Ponemos los valores en el VBO creado
-		glBufferData(GL_ARRAY_BUFFER, sizeof(punto), punto, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * punto.size(), punto.data(), GL_STATIC_DRAW);
 
 		//Indicamos donde almacenar y como esta distribuida la información
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
