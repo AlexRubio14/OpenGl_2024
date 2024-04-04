@@ -323,7 +323,7 @@ void main() {
 		//	+0.2f, +0.2f, +0.2f  // 0
 		//};
 
-		// PYRAMID
+		//// PYRAMID
 		//GLfloat punto[] = {
 		//    0.0f, 0.6f, 0.0f, // Apex
 		//    -0.2f, 0.0f, -0.2f, // Base front left
