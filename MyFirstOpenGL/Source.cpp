@@ -324,18 +324,35 @@ void main() {
 		//};
 
 		// PYRAMID
-		GLfloat punto[] = {
-		    0.0f, 0.6f, 0.0f, // Apex
-		    -0.2f, 0.0f, -0.2f, // Base front left
-		    0.2f, 0.0f, -0.2f, // Base front right
-		    0.0f, 0.6f, 0.0f, // Apex
-		    0.2f, 0.0f, 0.2f, // Base back right
-		    0.0f, 0.6f, 0.0f, // Apex
-		    -0.2f, 0.0f, 0.2f, // Base back left
-		    0.0f, 0.6f, 0.0f, // Apex
-		    -0.2f, 0.0f, -0.2f // Base front left
-		}; 
+		//GLfloat punto[] = {
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, -0.2f, // Base front left
+		//    0.2f, 0.0f, -0.2f, // Base front right
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    0.2f, 0.0f, 0.2f, // Base back right
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, 0.2f, // Base back left
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, -0.2f // Base front left
+		//}; 
 
+		// ORTHOHEDRON
+		GLfloat punto[] = {
+			-0.2f, +0.6f, -0.2f, // 3
+			+0.2f, +0.6f, -0.2f, // 2
+			-0.2f, -0.6f, -0.2f, // 6
+			+0.2f, -0.6f, -0.2f, // 7
+			+0.2f, -0.6f, +0.2f, // 4
+			+0.2f, +0.6f, -0.2f, // 2
+			+0.2f, +0.6f, +0.2f, // 0
+			-0.2f, +0.6f, -0.2f, // 3
+			-0.2f, +0.6f, +0.2f, // 1
+			-0.2f, -0.6f, -0.2f, // 6
+			-0.2f, -0.6f, +0.2f, // 5
+			+0.2f, -0.6f, +0.2f, // 4
+			-0.2f, +0.6f, +0.2f, // 1
+			+0.2f, +0.6f, +0.2f  // 0
+		};
 
 		//Definimos modo de dibujo para cada cara
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
