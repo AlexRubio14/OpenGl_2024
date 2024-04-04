@@ -3,23 +3,18 @@
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_transform.hpp>
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <vector>
 
+#include "Cube.h"
+
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
 std::vector<GLuint> compiledPrograms;
-
-struct GameObject {
-	glm::vec3 position = glm::vec3(0.0f, 0.f, 0.f);
-	glm::vec3 rotation = glm::vec3(0.f);
-	glm::vec3 forward = glm::vec3(0.f, 1.f, 0.f);
-	float fVelocity = 0.01f;
-	float fAngularVelocity = -1.f;
-};
 
 struct ShaderProgram {
 
@@ -35,17 +30,6 @@ void Resize_Window(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHe
 
 	glUniform2f(glGetUniformLocation(compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
 
-}
-
-//Funcion que general una matriz de translacion
-glm::mat4 GenerateTranslationMatrix(glm::vec3 translation) {
-
-	return glm::translate(glm::mat4(1.f), translation);
-}
-
-glm::mat4 GenerateRotationMatrix(glm::vec3 axis, float fDegrees) {
-
-	return glm::rotate(glm::mat4(1.f), glm::radians(fDegrees), glm::normalize(axis));
 }
 
 //Funcion que devolvera una string con todo el archivo leido
@@ -293,10 +277,7 @@ void main() {
 	if (glewInit() == GLEW_OK) {
 
 		//Declarar instancia del gameObject
-		GameObject cube;
-
-		//Declarar vec2 para definir el offset
-		glm::vec2 offset = glm::vec2(0.f, 0.f);
+		Cube cube;
 
 		//Compilar shaders
 		ShaderProgram myFirstProgram;
@@ -324,22 +305,53 @@ void main() {
 		//Indico que el VBO activo es el que acabo de crear y que almacenará un array. Todos los VBO que genere se asignaran al último VAO que he hecho glBindVertexArray
 		glBindBuffer(GL_ARRAY_BUFFER, vboPuntos);
 
-		// Posición X e Y del punto
+		// CUBE
+		//GLfloat punto[] = {
+		//	-0.2f, +0.2f, -0.2f, // 3
+		//	+0.2f, +0.2f, -0.2f, // 2
+		//	-0.2f, -0.2f, -0.2f, // 6
+		//	+0.2f, -0.2f, -0.2f, // 7
+		//	+0.2f, -0.2f, +0.2f, // 4
+		//	+0.2f, +0.2f, -0.2f, // 2
+		//	+0.2f, +0.2f, +0.2f, // 0
+		//	-0.2f, +0.2f, -0.2f, // 3
+		//	-0.2f, +0.2f, +0.2f, // 1
+		//	-0.2f, -0.2f, -0.2f, // 6
+		//	-0.2f, -0.2f, +0.2f, // 5
+		//	+0.2f, -0.2f, +0.2f, // 4
+		//	-0.2f, +0.2f, +0.2f, // 1
+		//	+0.2f, +0.2f, +0.2f  // 0
+		//};
+
+		//// PYRAMID
+		//GLfloat punto[] = {
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, -0.2f, // Base front left
+		//    0.2f, 0.0f, -0.2f, // Base front right
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    0.2f, 0.0f, 0.2f, // Base back right
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, 0.2f, // Base back left
+		//    0.0f, 0.6f, 0.0f, // Apex
+		//    -0.2f, 0.0f, -0.2f // Base front left
+		//}; 
+
+		// ORTHOHEDRON
 		GLfloat punto[] = {
-			-0.8f, +0.2f, -0.2f, // 3
-			-0.4f, +0.2f, -0.2f, // 2
-			-0.8f, -0.2f, -0.2f, // 6
-			-0.4f, -0.2f, -0.2f, // 7
-			-0.4f, -0.2f, +0.2f, // 4
-			-0.4f, +0.2f, -0.2f, // 2
-			-0.4f, +0.2f, +0.2f, // 0
-			-0.8f, +0.2f, -0.2f, // 3
-			-0.8f, +0.2f, +0.2f, // 1
-			-0.8f, -0.2f, -0.2f, // 6
-			-0.8f, -0.2f, +0.2f, // 5
-			-0.4f, -0.2f, +0.2f, // 4
-			-0.8f, +0.2f, +0.2f, // 1
-			-0.4f, +0.2f, +0.2f  // 0
+			-0.2f, +0.6f, -0.2f, // 3
+			+0.2f, +0.6f, -0.2f, // 2
+			-0.2f, -0.6f, -0.2f, // 6
+			+0.2f, -0.6f, -0.2f, // 7
+			+0.2f, -0.6f, +0.2f, // 4
+			+0.2f, +0.6f, -0.2f, // 2
+			+0.2f, +0.6f, +0.2f, // 0
+			-0.2f, +0.6f, -0.2f, // 3
+			-0.2f, +0.6f, +0.2f, // 1
+			-0.2f, -0.6f, -0.2f, // 6
+			-0.2f, -0.6f, +0.2f, // 5
+			+0.2f, -0.6f, +0.2f, // 4
+			-0.2f, +0.6f, +0.2f, // 1
+			+0.2f, +0.6f, +0.2f  // 0
 		};
 
 		//Definimos modo de dibujo para cada cara
@@ -360,15 +372,6 @@ void main() {
 		//Desvinculamos VAO
 		glBindVertexArray(0);
 
-		////Generar la matriz identidad
-		//glm::mat4 modelMatrix = glm::mat4(1.f);
-
-		//// Genero una amtriz de translacion
-		//glm::mat4 translationMatrix = GenerateTranslationMatrix(glm::vec3(-0.2f, 0.2f, 0));
-
-		//Aplico calculo de matrices
-		//modelMatrix = translationMatrix * modelMatrix;
-
 		////Indicar a la tarjeta GPU que programa debe usar
 		glUseProgram(compiledPrograms[0]);
 
@@ -388,31 +391,11 @@ void main() {
 			//Definimos que queremos usar el VAO con los puntos
 			glBindVertexArray(vaoPuntos);
 
-			glm::mat4 cubeModelMatrix = glm::mat4(1.f); // matriz homogenea
-
 			// Aplico velocidad hacia el forward
-			cube.position = cube.position + cube.forward * cube.fVelocity;
-
-			cube.position.x = 0.6; //////////////////////////////////////////////////////// ALERTTTTTTTTTTTTTTTTTT
-
-			cube.rotation = cube.rotation + glm::vec3(0.f, 1.f, 0.f) * cube.fAngularVelocity;
-
-			// Invierto direccion al llegar  a los limites
-			if (cube.position.y >= 0.5f || cube.position.y <= -0.5f) {
-				cube.forward = cube.forward * -1.f;
-			}
-
-			// Genero matriz que definde la translacion del cubo
-			glm::mat4 cubeTranslationMatrix = GenerateTranslationMatrix(cube.position);
-			glm::mat4 rotationMatrix = GenerateRotationMatrix(glm::vec3(0.f, 1.f, 0.f), cube.rotation.y);
-
-
-			// Aplico la matriz de translacion
-			cubeModelMatrix = rotationMatrix * cubeTranslationMatrix * cubeModelMatrix;
- 
+			cube.Update(0.f); 
 
 			//Aplicamos la matriz al shader
-			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cubeModelMatrix));
+			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cube.ApplyModelMatrix()));
 
 
 			//Definimos que queremos dibujar
