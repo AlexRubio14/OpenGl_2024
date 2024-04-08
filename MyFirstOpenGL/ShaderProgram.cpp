@@ -158,9 +158,9 @@ GLuint ShaderProgram::CreateProgram(const ShaderProgram& shaders) {
 		glAttachShader(program, shaders.vertexShader);
 	}
 
-	/*if (shaders.geometryShader != 0) {
+	if (shaders.geometryShader != 0) {
 		glAttachShader(program, shaders.geometryShader);
-	}*/
+	}
 
 	if (shaders.fragmentShader != 0) {
 		glAttachShader(program, shaders.fragmentShader);
@@ -181,10 +181,10 @@ GLuint ShaderProgram::CreateProgram(const ShaderProgram& shaders) {
 			glDetachShader(program, shaders.vertexShader);
 		}
 
-		////Liberamos recursos
-		//if (shaders.geometryShader != 0) {
-		//	glDetachShader(program, shaders.geometryShader);
-		//}
+		//Liberamos recursos
+		if (shaders.geometryShader != 0) {
+			glDetachShader(program, shaders.geometryShader);
+		}
 
 		//Liberamos recursos
 		if (shaders.fragmentShader != 0) {

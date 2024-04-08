@@ -58,7 +58,6 @@ void main() {
 	//Inicializamos GLEW y controlamos errores
 	if (glewInit() == GLEW_OK) {
 
-
 		//Declarar instancia del gameObject
 		GameObject* cube = new Cube(glm::vec3(-0.6f, 0.f, 0.f), glm::vec3(0), glm::vec3(0));
 		GameObject* orthohedron = new Orthohedron(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0), glm::vec3(0));
@@ -67,7 +66,7 @@ void main() {
 		//Compilar shaders
 		ShaderProgram myFirstProgram;
 		myFirstProgram.LoadVertexShader("MyFirstVertexShader.glsl");
-		myFirstProgram.LoadGeometryShader("MyFirstGeometryShader.glsl");
+		//myFirstProgram.LoadGeometryShader("MyFirstGeometryShader.glsl");
 		myFirstProgram.LoadFragmentShader("MyFirstFragmentShader.glsl");
 
 		//Compilar programa
@@ -117,6 +116,7 @@ void main() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 			// CUBE UPDATE
+			glUseProgram(compiledPrograms[0]);
 			glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
 			cube->Update(0.f); // Aplico velocidad hacia el forward
 			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cube->ApplyModelMatrix())); //Aplicamos la matriz al shader
@@ -124,6 +124,7 @@ void main() {
 			glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
 
 			// PYRAMID UPDATE
+			//glUseProgram(compiledPrograms[1]);
 			glBindVertexArray(vaoPyramid);
 			pyramid->Update(0.f); 
 			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(pyramid->ApplyModelMatrix()));
@@ -131,6 +132,7 @@ void main() {
 			glBindVertexArray(0);
 
 			// ORTHOHEDRON UPDATE
+			//glUseProgram(compiledPrograms[2]);
 			glBindVertexArray(vaoOrthohedron);
 			orthohedron->Update(0.f);
 			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(orthohedron->ApplyModelMatrix()));
