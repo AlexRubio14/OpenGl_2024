@@ -10,6 +10,9 @@
 #include <vector>
 
 #include "Cube.h"
+#include "Orthohedron.h"
+#include "Pyramid.h"
+#include "GLManager.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -277,7 +280,9 @@ void main() {
 	if (glewInit() == GLEW_OK) {
 
 		//Declarar instancia del gameObject
-		Cube cube;
+		GameObject* cube = new Cube(glm::vec3(-0.6f, 0.f, 0.f), glm::vec3(0), glm::vec3(0));
+		GameObject* orthohedron = new Orthohedron(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0), glm::vec3(0));
+		GameObject* pyramid = new Pyramid(glm::vec3(0.6f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(0.f));
 
 		//Compilar shaders
 		ShaderProgram myFirstProgram;
@@ -291,104 +296,29 @@ void main() {
 		//Definimos color para limpiar el buffer de color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
-		GLuint vaoPuntos, vboPuntos;
-
-		//Definimos cantidad de vao a crear y donde almacenarlos 
-		glGenVertexArrays(1, &vaoPuntos);
-
-		//Indico que el VAO activo de la GPU es el que acabo de crear
-		glBindVertexArray(vaoPuntos);
-
-		//Definimos cantidad de vbo a crear y donde almacenarlos
-		glGenBuffers(1, &vboPuntos);
-
-		//Indico que el VBO activo es el que acabo de crear y que almacenará un array. Todos los VBO que genere se asignaran al último VAO que he hecho glBindVertexArray
-		glBindBuffer(GL_ARRAY_BUFFER, vboPuntos);
-
-		// CUBE
-		//GLfloat punto[] = {
-		//	-0.2f, +0.2f, -0.2f, // 3
-		//	+0.2f, +0.2f, -0.2f, // 2
-		//	-0.2f, -0.2f, -0.2f, // 6
-		//	+0.2f, -0.2f, -0.2f, // 7
-		//	+0.2f, -0.2f, +0.2f, // 4
-		//	+0.2f, +0.2f, -0.2f, // 2
-		//	+0.2f, +0.2f, +0.2f, // 0
-		//	-0.2f, +0.2f, -0.2f, // 3
-		//	-0.2f, +0.2f, +0.2f, // 1
-		//	-0.2f, -0.2f, -0.2f, // 6
-		//	-0.2f, -0.2f, +0.2f, // 5
-		//	+0.2f, -0.2f, +0.2f, // 4
-		//	-0.2f, +0.2f, +0.2f, // 1
-		//	+0.2f, +0.2f, +0.2f  // 0
-		//};
-
-		//// PYRAMID
-		//GLfloat punto[] = {
-		//    0.0f, 0.6f, 0.0f, // Apex
-		//    -0.2f, 0.0f, -0.2f, // Base front left
-		//    0.2f, 0.0f, -0.2f, // Base front right
-		//    0.0f, 0.6f, 0.0f, // Apex
-		//    0.2f, 0.0f, 0.2f, // Base back right
-		//    0.0f, 0.6f, 0.0f, // Apex
-		//    -0.2f, 0.0f, 0.2f, // Base back left
-		//    0.0f, 0.6f, 0.0f, // Apex
-		//    -0.2f, 0.0f, -0.2f // Base front left
-		//}; 
-
-		// ORTHOHEDRON
-		std::vector<GLfloat> punto = 
-		{
-		-0.2f, +0.6f, -0.2f, // 3
-		+0.2f, +0.6f, -0.2f, // 2
-		-0.2f, -0.6f, -0.2f, // 6
-		+0.2f, -0.6f, -0.2f, // 7
-		+0.2f, -0.6f, +0.2f, // 4
-		+0.2f, +0.6f, -0.2f, // 2
-		+0.2f, +0.6f, +0.2f, // 0
-		-0.2f, +0.6f, -0.2f, // 3
-		-0.2f, +0.6f, +0.2f, // 1
-		-0.2f, -0.6f, -0.2f, // 6
-		-0.2f, -0.6f, +0.2f, // 5
-		+0.2f, -0.6f, +0.2f, // 4
-		-0.2f, +0.6f, +0.2f, // 1
-		+0.2f, +0.6f, +0.2f  // 0
-		};
-
-		//GLfloat punto[] = {
-		//	-0.2f, +0.6f, -0.2f, // 3
-		//	+0.2f, +0.6f, -0.2f, // 2
-		//	-0.2f, -0.6f, -0.2f, // 6
-		//	+0.2f, -0.6f, -0.2f, // 7
-		//	+0.2f, -0.6f, +0.2f, // 4
-		//	+0.2f, +0.6f, -0.2f, // 2
-		//	+0.2f, +0.6f, +0.2f, // 0
-		//	-0.2f, +0.6f, -0.2f, // 3
-		//	-0.2f, +0.6f, +0.2f, // 1
-		//	-0.2f, -0.6f, -0.2f, // 6
-		//	-0.2f, -0.6f, +0.2f, // 5
-		//	+0.2f, -0.6f, +0.2f, // 4
-		//	-0.2f, +0.6f, +0.2f, // 1
-		//	+0.2f, +0.6f, +0.2f  // 0
-		//};
-
 		//Definimos modo de dibujo para cada cara
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		
+		// CUBE VAO & VBO
+		GLuint vaoCube, vboCube;
 
-		//Ponemos los valores en el VBO creado
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * punto.size(), punto.data(), GL_STATIC_DRAW);
+		GLMANAGER.InitializeVaoAndVbo(vaoCube, vboCube, 1, 1);
+		GLMANAGER.VboConfiguration(cube, 0);
+		GLMANAGER.VaoDesconfiguration(0);
 
-		//Indicamos donde almacenar y como esta distribuida la información
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+		// PYRAMID VAO & VBO
+		GLuint vaoPyramid, vboPyramid;
 
-		//Indicamos que la tarjeta gráfica puede usar el atributo 0
-		glEnableVertexAttribArray(0);
+		GLMANAGER.InitializeVaoAndVbo(vaoPyramid, vboPyramid, 1, 1);
+		GLMANAGER.VboConfiguration(pyramid, 0);
+		GLMANAGER.VaoDesconfiguration(0);
 
-		//Desvinculamos VBO
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// ORTHOEDRON VAO & VBO
+		GLuint vaoOrthohedron, vboOrthohedron;
 
-		//Desvinculamos VAO
-		glBindVertexArray(0);
+		GLMANAGER.InitializeVaoAndVbo(vaoOrthohedron, vboOrthohedron, 1, 1);
+		GLMANAGER.VboConfiguration(orthohedron, 0);
+		GLMANAGER.VaoDesconfiguration(0);
 
 		////Indicar a la tarjeta GPU que programa debe usar
 		glUseProgram(compiledPrograms[0]);
@@ -406,20 +336,25 @@ void main() {
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-			//Definimos que queremos usar el VAO con los puntos
-			glBindVertexArray(vaoPuntos);
+			// CUBE UPDATE
+			glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
+			cube->Update(0.f); // Aplico velocidad hacia el forward
+			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cube->ApplyModelMatrix())); //Aplicamos la matriz al shader
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, cube->NumTotalTriangles()); //Definimos que queremos dibujar
+			glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
 
-			// Aplico velocidad hacia el forward
-			cube.Update(0.f); 
+			// PYRAMID UPDATE
+			glBindVertexArray(vaoPyramid);
+			pyramid->Update(0.f); 
+			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(pyramid->ApplyModelMatrix()));
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, pyramid->NumTotalTriangles());
+			glBindVertexArray(0);
 
-			//Aplicamos la matriz al shader
-			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(cube.ApplyModelMatrix()));
-
-
-			//Definimos que queremos dibujar
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 14);
-
-			//Dejamos de usar el VAO indicado anteriormente
+			// ORTHOHEDRON UPDATE
+			glBindVertexArray(vaoOrthohedron);
+			orthohedron->Update(0.f);
+			glUniformMatrix4fv(glGetUniformLocation(compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(orthohedron->ApplyModelMatrix()));
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, orthohedron->NumTotalTriangles());
 			glBindVertexArray(0);
 
 			//Cambiamos buffers
