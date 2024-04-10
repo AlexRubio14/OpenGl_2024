@@ -1,5 +1,34 @@
 #include "GLManager.h"
 
+void ResizeWindow(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHeight)
+{
+	//Definir nuevo tamaño del viewport
+	glViewport(0, 0, iFrameBufferWidth, iFrameBufferHeight);
+
+	glUniform2f(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
+}
+
+void GLManager::WindowsConfiguration()
+{
+	//Inicializamos GLFW para gestionar ventanas e inputs
+	glfwInit();
+
+	//Configuramos la ventana
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+
+	//Inicializamos la ventana
+	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "My Engine", NULL, NULL);
+
+	//Asignamos función de callback para cuando el frame buffer es modificado
+	glfwSetFramebufferSizeCallback(window, ResizeWindow);
+
+	//Definimos espacio de trabajo
+	glfwMakeContextCurrent(window);
+}
+
 void GLManager::InitializeVaoAndVbo(GLuint& vao, GLuint& vbo, int numVaos, int numVbos)
 {
 
@@ -14,6 +43,24 @@ void GLManager::InitializeVaoAndVbo(GLuint& vao, GLuint& vbo, int numVaos, int n
 
 	//Indico que el VBO activo es el que acabo de crear y que almacenará un array. Todos los VBO que genere se asignaran al último VAO que he hecho glBindVertexArray
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+}
+
+void GLManager::ActivateFrontCulling()
+{
+	//Activamos cull face
+	glEnable(GL_CULL_FACE);
+
+	//Indicamos lado del culling
+	glCullFace(GL_FRONT);
+}
+
+void GLManager::ActivateBackCulling()
+{
+	//Activamos cull face
+	glEnable(GL_CULL_FACE);
+
+	//Indicamos lado del culling
+	glCullFace(GL_BACK);
 }
 
 void GLManager::VboConfiguration(GameObject* gameObject, int numVbo, int dimensions)
