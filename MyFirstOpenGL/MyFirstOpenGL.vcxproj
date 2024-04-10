@@ -29,6 +29,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FS_Semaphore.glsl" />
     <None Include="FS_YellowOrange.glsl" />
     <None Include="MyFirstGeometryShader.glsl" />
     <None Include="MyFirstVertexShader.glsl" />
@@ -42,6 +43,7 @@
     <ClInclude Include="Orthohedron.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="ShaderProgramManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="MatrixUtilities.h" />
   </ItemGroup>

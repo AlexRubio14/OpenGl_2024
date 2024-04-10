@@ -5,7 +5,7 @@
 #include <gtc/matrix_transform.hpp>
 
 #include "GLManager.h"
-#include "ShaderProgram.h"
+#include "ShaderProgramManager.h"
 #include "GameObjectManager.h"
 
 void main() {
@@ -25,14 +25,6 @@ void main() {
 
 		//Declarar instancia del gameObject
 		GAMEOBJECT_MANAGER.CreateFigures(); 
-
-		//Compilar shaders
-		SHADER_PROGRAM.LoadVertexShader("MyFirstVertexShader.glsl");
-		//SHADER_PROGRAM.LoadGeometryShader("MyFirstGeometryShader.glsl");
-		SHADER_PROGRAM.LoadFragmentShader("FS_YellowOrange.glsl");
-
-		//Compilar programa
-		SHADER_PROGRAM.compiledPrograms.push_back(SHADER_PROGRAM.CreateProgram(SHADER_PROGRAM));
 
 		//Definimos color para limpiar el buffer de color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
@@ -61,11 +53,10 @@ void main() {
 		GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[2], 0);
 		GL_MANAGER.VaoDesconfiguration(0);
 
-		//Indicar a la tarjeta GPU que programa debe usar
-		glUseProgram(SHADER_PROGRAM.compiledPrograms[0]);
+		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 
 		//Asignar valores iniciales al programa
-		glUniform2f(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
+		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		//Generamos el game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
@@ -77,27 +68,31 @@ void main() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 			// CUBE UPDATE
+			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); //Indicar a la tarjeta GPU que programa debe usar
 			glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
 			GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Aplico velocidad hacia el forward
-			glUniformMatrix4fv(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[0]->ApplyModelMatrix())); //Aplicamos la matriz al shader
+			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[0]->ApplyModelMatrix())); //Aplicamos la matriz al shader
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Definimos que queremos dibujar
 			glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
+			glUseProgram(0);
 
 			// PYRAMID UPDATE
-			//glUseProgram(compiledPrograms[1]);
+			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 			glBindVertexArray(vaoPyramid);
 			GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
+			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
 			glBindVertexArray(0);
+			glUseProgram(0);
 
 			// ORTHOHEDRON UPDATE
 			//glUseProgram(compiledPrograms[2]);
 			glBindVertexArray(vaoOrthohedron);
 			GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
+			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[2]->NumTotalTriangles());
 			glBindVertexArray(0);
+			glUseProgram(0);
 
 			//Cambiamos buffers
 			glFlush();
@@ -106,7 +101,7 @@ void main() {
 
 		//Desactivar y eliminar programa
 		glUseProgram(0);
-		glDeleteProgram(SHADER_PROGRAM.compiledPrograms[0]);
+		glDeleteProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 
 	}
 	else {

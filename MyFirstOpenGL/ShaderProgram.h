@@ -1,33 +1,18 @@
 #pragma once
 #include <GL/glew.h>
+
 #include <vector>
 #include <string>
 #include <fstream>
 #include <iostream>
 
-#define SHADER_PROGRAM ShaderProgram::Instance()
-
-class ShaderProgram {
-private:
-
-	ShaderProgram() = default;
-
-	ShaderProgram(const ShaderProgram&) = delete;
-	ShaderProgram& operator =(const ShaderProgram&) = delete;
-
+class ShaderProgram
+{
 public:
-
-	std::vector<GLuint> compiledPrograms;
 
 	GLuint vertexShader;
 	GLuint geometryShader;
 	GLuint fragmentShader;
-
-	inline static ShaderProgram& Instance()
-	{
-		static ShaderProgram shaderProgram;
-		return shaderProgram;
-	}
 
 	//Funcion que devolvera una string con todo el archivo leido
 	std::string Load_File(const std::string& filePath);

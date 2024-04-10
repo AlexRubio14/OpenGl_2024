@@ -41,11 +41,7 @@ public:
 		};
 	};
 
-
-
-
 	virtual void Update(float dt) override;
-
 
 	virtual glm::mat4 ApplyModelMatrix() override;
 };

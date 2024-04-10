@@ -5,7 +5,7 @@ void ResizeWindow(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHei
 	//Definir nuevo tamaño del viewport
 	glViewport(0, 0, iFrameBufferWidth, iFrameBufferHeight);
 
-	glUniform2f(glGetUniformLocation(SHADER_PROGRAM.compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
+	glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
 }
 
 void GLManager::WindowsConfiguration()

@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "ShaderProgram.h"
+#include "ShaderProgramManager.h"
 #include "GameObject.h"
 
 #define WINDOW_WIDTH 640
