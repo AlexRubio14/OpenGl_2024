@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GLManager.cpp" />
     <ClCompile Include="Orthohedron.cpp" />
     <ClCompile Include="Pyramid.cpp" />
@@ -28,7 +29,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MyFirstFragmentShader.glsl" />
+    <None Include="FS_YellowOrange.glsl" />
     <None Include="MyFirstGeometryShader.glsl" />
     <None Include="MyFirstVertexShader.glsl" />
     <None Include="packages.config" />
@@ -36,6 +37,7 @@
   <ItemGroup>
     <ClInclude Include="Cube.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GLManager.h" />
     <ClInclude Include="Orthohedron.h" />
     <ClInclude Include="Pyramid.h" />
