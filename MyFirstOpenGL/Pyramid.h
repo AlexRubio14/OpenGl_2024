@@ -29,15 +29,18 @@ public:
 
 		//Size (0.4 x 0.6 x 0.4)
 		vertexs = {
-			0.0f, 0.6f, 0.0f, // Apex
-			-0.2f, 0.0f, -0.2f, // Base front left
-			0.2f, 0.0f, -0.2f, // Base front right
-			0.0f, 0.6f, 0.0f, // Apex
-			0.2f, 0.0f, 0.2f, // Base back right
-			0.0f, 0.6f, 0.0f, // Apex
-			-0.2f, 0.0f, 0.2f, // Base back left
-			0.0f, 0.6f, 0.0f, // Apex
-			-0.2f, 0.0f, -0.2f // Base front left
+			 +0.0f, +0.5f, +0.0f,
+				-0.2f, -0.5f, +0.2f,
+				+0.2f, -0.5f, +0.2f,
+				+0.2f, -0.5f, -0.2f,
+				-0.2f, -0.5f, -0.2f,
+				-0.2f, -0.5f, +0.2f,
+
+				// Triangle Strip
+				+0.2f, -0.5f, +0.2f,
+				-0.2f, -0.5f, +0.2f,
+				+0.2f, -0.5f, -0.2f,
+				-0.2f, -0.5f, -0.2f,
 		};
 	};
 

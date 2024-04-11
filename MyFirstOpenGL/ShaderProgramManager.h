@@ -19,7 +19,7 @@ private:
 		// PYRAMID COMPILAR SHADERS & PROGRAM
 		ShaderProgram shaderProgramPyramid;
 
-		//shaderProgramPyramid.LoadVertexShader("MyFirstVertexShader.glsl");
+		shaderProgramPyramid.LoadVertexShader("MyFirstVertexShader.glsl");
 		shaderProgramPyramid.LoadFragmentShader("FS_YellowOrange.glsl");
 		compiledPrograms.push_back(shaderProgramPyramid.CreateProgram(shaderProgramPyramid));
 	}

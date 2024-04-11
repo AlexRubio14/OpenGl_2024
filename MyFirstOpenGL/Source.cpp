@@ -57,6 +57,8 @@ void main() {
 
 		//Asignar valores iniciales al programa
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
+		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		//Generamos el game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
@@ -80,13 +82,14 @@ void main() {
 			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 			glBindVertexArray(vaoPyramid);
 			GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
+			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
+			glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
+			glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
 			glBindVertexArray(0);
 			glUseProgram(0);
 
 			// ORTHOHEDRON UPDATE
-			//glUseProgram(compiledPrograms[2]);
+			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 			glBindVertexArray(vaoOrthohedron);
 			GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
 			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
