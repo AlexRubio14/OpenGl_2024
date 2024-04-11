@@ -1,22 +1,25 @@
 #include "Orthohedron.h"
+#include <iostream>
 
 void Orthohedron::Update(float dt)
 {
-	// Apply velocity and rotation into forward direction
-	transform.position = transform.position + transform.forward * velocity;
-	transform.rotation = transform.rotation + transform.rotationDirection * angularVelocity;
+	// Apply rotation into forward direction
+	transform.rotation = transform.rotation + glm::vec3(0.f, 0.f, 1.f) * angularVelocity;
 
-	// Invert forward when reached screen limits
-	if (transform.position.y >= 0.5f || transform.position.y <= -0.5f) {
-		transform.forward = transform.forward * -1.f;
-	}
+	if (transform.scale.y <= 0.3f)
+		transform.scaleVelocity = 0.01f;
+	else if (transform.scale.y >= 0.7f)
+		transform.scaleVelocity = -0.01f;
+
+	transform.scale.y += transform.scaleVelocity;
 }
 
 glm::mat4 Orthohedron::ApplyModelMatrix()
 {
 	// Create matrix that defines the translation and rotation
-	glm::mat4 translationMatrix = MatrixUtilities::GenerateTranslationMatrix(transform.position);
-	glm::mat4 rotationMatrix = MatrixUtilities::GenerateRotationMatrix(transform.rotationDirection, transform.rotation.y);
+	glm::mat4 rotationMatrix = MatrixUtilities::GenerateRotationMatrix(glm::vec3(0.f, 0.f, 1.f), transform.rotation.z);
 
-	return translationMatrix * rotationMatrix * glm::mat4(1.f);
+	glm::mat4 scaleMatrix = MatrixUtilities::GenerateScaleMatrix(transform.scale);
+
+	return rotationMatrix * scaleMatrix * glm::mat4(1.f);
 }

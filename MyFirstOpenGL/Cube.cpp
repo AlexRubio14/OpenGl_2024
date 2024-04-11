@@ -4,7 +4,7 @@ void Cube::Update(float dt)
 {
 	// Apply velocity and rotation into forward direction
 	transform.position = transform.position + transform.forward * velocity;
-	transform.rotation = transform.rotation + transform.rotationDirection * angularVelocity;
+	transform.rotation = transform.rotation + glm::vec3(0.f, 1.f, 0.f) * angularVelocity;
 
 	// Invert forward when reached screen limits
 	if (transform.position.y >= 0.5f || transform.position.y <= -0.5f) {
@@ -16,7 +16,7 @@ glm::mat4 Cube::ApplyModelMatrix()
 {
 	// Create matrix that defines the translation and rotation 
 	glm::mat4 translationMatrix = MatrixUtilities::GenerateTranslationMatrix(transform.position);
-	glm::mat4 rotationMatrix = MatrixUtilities::GenerateRotationMatrix(transform.rotationDirection, transform.rotation.y);
+	glm::mat4 rotationMatrix = MatrixUtilities::GenerateRotationMatrix(glm::vec3(0.f, 1.f, 0.f), transform.rotation.y);
 
 	return translationMatrix * rotationMatrix * glm::mat4(1.f);
 }
