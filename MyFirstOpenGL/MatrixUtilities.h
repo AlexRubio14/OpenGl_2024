@@ -16,4 +16,9 @@ public:
 
 		return glm::rotate(glm::mat4(1.f), glm::radians(fDegrees), glm::normalize(axis));
 	}
+
+	static glm::mat4 GenerateScaleMatrix(glm::vec3 scaleAxis) {
+
+		return glm::scale(glm::mat4(1.f), scaleAxis);
+	}
 };

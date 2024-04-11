@@ -29,7 +29,5 @@ public:
 		currentTime %= 6;
 
 		timer = currentTime;
-
-		std::cout << timer << std::endl;
 	};
 };

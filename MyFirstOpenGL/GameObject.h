@@ -31,4 +31,6 @@ public:
 
 	inline std::vector<GLfloat> GetVertexs() const { return vertexs; }
 	inline int NumTotalTriangles() const { return vertexs.size() / 3; }
+
+	inline Transform GetTransform() const { return transform; }
 };

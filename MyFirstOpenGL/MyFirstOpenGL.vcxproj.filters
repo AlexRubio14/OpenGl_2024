@@ -53,11 +53,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MyFirstVertexShader.glsl">
+    <None Include="VS_Transform.glsl">
       <Filter>Shaders\Vertex Shader</Filter>
-    </None>
-    <None Include="MyFirstGeometryShader.glsl">
-      <Filter>Shaders\Geometry Shader</Filter>
     </None>
     <None Include="FS_YellowOrange.glsl">
       <Filter>Shaders\Fragment Shader</Filter>

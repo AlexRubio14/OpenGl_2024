@@ -31,8 +31,7 @@
   <ItemGroup>
     <None Include="FS_Semaphore.glsl" />
     <None Include="FS_YellowOrange.glsl" />
-    <None Include="MyFirstGeometryShader.glsl" />
-    <None Include="MyFirstVertexShader.glsl" />
+    <None Include="VS_Transform.glsl" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
