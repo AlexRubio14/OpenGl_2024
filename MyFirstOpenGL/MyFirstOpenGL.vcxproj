@@ -39,6 +39,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GLManager.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Orthohedron.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="ShaderProgram.h" />

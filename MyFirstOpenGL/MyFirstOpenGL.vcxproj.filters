@@ -98,5 +98,8 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

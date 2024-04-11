@@ -8,6 +8,7 @@
 #include "ShaderProgramManager.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
+#include "InputManager.h"
 
 void main() {
 
@@ -31,7 +32,7 @@ void main() {
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
 		//Definimos modo de dibujo para cada cara
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
 		// CUBE VAO & VBO
 		GLuint vaoCube, vboCube;
@@ -64,7 +65,6 @@ void main() {
 		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
 
 
-
 		//Generamos el game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
 
@@ -74,37 +74,40 @@ void main() {
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+			INPUT_MANAGER.Update(GAMEOBJECT_MANAGER.gameObjects);
 			TIME_MANAGER.Update();
 
-			// CUBE UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); //Indicar a la tarjeta GPU que programa debe usar
-			glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
-			GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Aplico velocidad hacia el forward
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[0]->ApplyModelMatrix())); //Aplicamos la matriz al shader
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Definimos que queremos dibujar
-			glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
+			if (!INPUT_MANAGER.GetPaused()) {
+				// CUBE UPDATE
+				glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); //Indicar a la tarjeta GPU que programa debe usar
+				glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
+				GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Aplico velocidad hacia el forward
+				glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[0]->ApplyModelMatrix())); //Aplicamos la matriz al shader
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Definimos que queremos dibujar
+				glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
 
-			// ORTHOHEDRON UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-			glBindVertexArray(vaoOrthohedron);
-			GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
-			glBindVertexArray(0);
+				// ORTHOHEDRON UPDATE
+				glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+				glBindVertexArray(vaoOrthohedron);
+				GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
+				glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
+				glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
+				glBindVertexArray(0);
 
-			glUseProgram(0);
+				glUseProgram(0);
 
-			// PYRAMID UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
-			glBindVertexArray(vaoPyramid);
-			GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
-			glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-			glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
-			glBindVertexArray(0);
-			glUseProgram(0);
+				// PYRAMID UPDATE
+				glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+				glBindVertexArray(vaoPyramid);
+				GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
+				glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
+				glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
+				glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
+				glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
+				glBindVertexArray(0);
+				glUseProgram(0);
 
+			}
 			
 
 			//Cambiamos buffers
