@@ -5,6 +5,7 @@ class Pyramid : public GameObject
 {
 private:
 
+
 public:
 
 	Pyramid()
@@ -42,6 +43,7 @@ public:
 				+0.2f, -0.5f, -0.2f,
 				-0.2f, -0.5f, -0.2f,
 		};
+
 	};
 
 	virtual void Update(float dt) override;

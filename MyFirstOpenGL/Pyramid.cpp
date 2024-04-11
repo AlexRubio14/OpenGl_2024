@@ -7,7 +7,7 @@ void Pyramid::Update(float dt)
 	transform.rotation = transform.rotation + glm::vec3(1.f, 0.f, 0.f) * angularVelocity + glm::vec3(0.f, 1.f, 0.f) * angularVelocity;
 
 	// Invert forward when reached screen limits
-	if (transform.position.y >= 0.5f || transform.position.y <= -0.5f) {
+	if (transform.position.y >= 0.4f || transform.position.y <= -0.4f) {
 		transform.forward = transform.forward * -1.f;
 	}
 }

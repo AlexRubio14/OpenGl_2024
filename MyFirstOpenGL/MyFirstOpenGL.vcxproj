@@ -44,6 +44,7 @@
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderProgramManager.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="MatrixUtilities.h" />
   </ItemGroup>

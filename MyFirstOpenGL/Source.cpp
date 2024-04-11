@@ -7,6 +7,7 @@
 #include "GLManager.h"
 #include "ShaderProgramManager.h"
 #include "GameObjectManager.h"
+#include "TimeManager.h"
 
 void main() {
 
@@ -59,6 +60,8 @@ void main() {
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
+		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
+		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
 
 		//Generamos el game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
@@ -68,6 +71,8 @@ void main() {
 
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+			TIME_MANAGER.Update();
 
 			// CUBE UPDATE
 			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); //Indicar a la tarjeta GPU que programa debe usar
@@ -83,6 +88,7 @@ void main() {
 			glBindVertexArray(vaoPyramid);
 			GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
 			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
+			glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 			glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
 			glBindVertexArray(0);

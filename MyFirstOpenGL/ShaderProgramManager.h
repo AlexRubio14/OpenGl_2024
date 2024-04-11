@@ -20,7 +20,7 @@ private:
 		ShaderProgram shaderProgramPyramid;
 
 		shaderProgramPyramid.LoadVertexShader("MyFirstVertexShader.glsl");
-		shaderProgramPyramid.LoadFragmentShader("FS_YellowOrange.glsl");
+		shaderProgramPyramid.LoadFragmentShader("FS_Semaphore.glsl");
 		compiledPrograms.push_back(shaderProgramPyramid.CreateProgram(shaderProgramPyramid));
 	}
 
