@@ -14,12 +14,12 @@ void Orthohedron::Update(float dt)
 
 	transform.scale.y += scaleVelocity;
 
-	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
 }
 
 void Orthohedron::Draw(GLuint vao)
 {
-	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 	glBindVertexArray(vao);
 
 	if (!INPUT_MANAGER.GetPaused()) {

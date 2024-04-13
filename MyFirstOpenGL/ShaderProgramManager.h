@@ -15,7 +15,13 @@ private:
 		shaderProgramCube.LoadFragmentShader("FS_YellowOrange.glsl");
 		compiledPrograms.push_back(shaderProgramCube.CreateProgram(shaderProgramCube));
 
+		// Orthohedron
 
+		ShaderProgram shaderProgramOrthohedron;
+
+		shaderProgramOrthohedron.LoadVertexShader("VS_Transform.glsl");
+		shaderProgramOrthohedron.LoadFragmentShader("FS_YellowOrange.glsl");
+		compiledPrograms.push_back(shaderProgramOrthohedron.CreateProgram(shaderProgramOrthohedron));
 
 
 		// PYRAMID COMPILAR SHADERS & PROGRAM

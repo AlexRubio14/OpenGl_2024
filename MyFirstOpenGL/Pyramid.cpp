@@ -13,19 +13,19 @@ void Pyramid::Update(float dt)
 		transform.forward = transform.forward * -1.f;
 	}
 
-	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
 }
 
 void Pyramid::Draw(GLuint vao)
 {
 	// PYRAMID UPDATE
-	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[2]);
 	glBindVertexArray(vao);
 
 	if (!INPUT_MANAGER.GetPaused())
 		Update(0.f);
 
-	glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
+	glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "time"), TIME_MANAGER.GetShaderTimer());
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 	glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
 	glBindVertexArray(0);
