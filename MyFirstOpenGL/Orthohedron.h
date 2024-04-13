@@ -53,5 +53,7 @@ public:
 
 	virtual void Update(float dt) override;
 
+	virtual void Draw(GLuint vao) override;
+
 	virtual glm::mat4 ApplyModelMatrix() override;
 };

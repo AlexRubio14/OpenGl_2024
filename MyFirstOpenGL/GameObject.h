@@ -31,6 +31,8 @@ public:
 
 	virtual void Update(float dt) = 0;
 
+	virtual void Draw(GLuint vao) = 0;
+
 	virtual glm::mat4 ApplyModelMatrix() = 0; 
 
 	void Accelerate();

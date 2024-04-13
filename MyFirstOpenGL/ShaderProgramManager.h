@@ -16,6 +16,8 @@ private:
 		compiledPrograms.push_back(shaderProgramCube.CreateProgram(shaderProgramCube));
 
 
+
+
 		// PYRAMID COMPILAR SHADERS & PROGRAM
 		ShaderProgram shaderProgramPyramid;
 

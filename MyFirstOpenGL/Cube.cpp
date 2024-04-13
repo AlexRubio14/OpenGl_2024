@@ -1,4 +1,6 @@
 #include "Cube.h"
+#include "InputManager.h"
+
 
 void Cube::Update(float dt)
 {
@@ -11,7 +13,23 @@ void Cube::Update(float dt)
 		transform.forward = transform.forward * -1.f;
 	}
 
-	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix())); //Aplicamos la matriz al shader
+	modelMatrix = ApplyModelMatrix();
+}
+
+void Cube::Draw(GLuint vao)
+{
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+	glBindVertexArray(vao);
+
+	if (!INPUT_MANAGER.GetPaused()) {
+		Update(0.f);
+	}
+
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(modelMatrix)); //Aplicamos la matriz al shader
+
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, NumTotalTriangles());
+	glBindVertexArray(0);
 }
 
 glm::mat4 Cube::ApplyModelMatrix()

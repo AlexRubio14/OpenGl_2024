@@ -34,5 +34,5 @@ public:
 	void AccelerateFigures();
 	void DeccelerateFigures();
 
-	void Draw();
+	void Draw(GLuint vaoCube, GLuint vaoOrthohedron, GLuint vaoPyramid);
 };

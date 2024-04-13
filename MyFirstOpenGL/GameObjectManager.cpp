@@ -29,3 +29,18 @@ void GameObjectManager::DeccelerateFigures()
 	}
 }
 
+void GameObjectManager::Draw(GLuint vaoCube, GLuint vaoOrthohedron, GLuint vaoPyramid)
+{
+	if (GAMEOBJECT_MANAGER.gameObjects[0]->GetIsActive()) {
+		gameObjects[0]->Draw(vaoCube);
+	}
+
+	if (GAMEOBJECT_MANAGER.gameObjects[1]->GetIsActive()) {
+		gameObjects[1]->Draw(vaoOrthohedron);
+	}
+
+	if (GAMEOBJECT_MANAGER.gameObjects[2]->GetIsActive()) {
+		gameObjects[2]->Draw(vaoPyramid);
+	}
+}
+

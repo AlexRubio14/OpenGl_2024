@@ -1,5 +1,6 @@
 #include "Orthohedron.h"
-#include <iostream>
+#include "InputManager.h"
+
 
 void Orthohedron::Update(float dt)
 {
@@ -14,6 +15,19 @@ void Orthohedron::Update(float dt)
 	transform.scale.y += scaleVelocity;
 
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+}
+
+void Orthohedron::Draw(GLuint vao)
+{
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+	glBindVertexArray(vao);
+
+	if (!INPUT_MANAGER.GetPaused()) {
+		Update(0.f);
+	}
+	
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, NumTotalTriangles());
+	glBindVertexArray(0);
 }
 
 glm::mat4 Orthohedron::ApplyModelMatrix()

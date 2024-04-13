@@ -1,4 +1,6 @@
 #include "Pyramid.h"
+#include "InputManager.h"
+
 
 void Pyramid::Update(float dt)
 {
@@ -12,7 +14,21 @@ void Pyramid::Update(float dt)
 	}
 
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+}
 
+void Pyramid::Draw(GLuint vao)
+{
+	// PYRAMID UPDATE
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+	glBindVertexArray(vao);
+
+	if (!INPUT_MANAGER.GetPaused())
+		Update(0.f);
+
+	glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
+	glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
+	glBindVertexArray(0);
 }
 
 glm::mat4 Pyramid::ApplyModelMatrix()

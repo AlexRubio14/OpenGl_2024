@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include "GLManager.h"
+#include "GameObjectManager.h"
 
 #define INPUT_MANAGER InputManager::Instance()
 
@@ -41,40 +42,40 @@ public:
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS && !pauseKeyPressed) 
 		{
 			pauseKeyPressed = true;
-			Pause();
+  			Pause();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed && !paused)
 		{
 			keyMPressed = true;
 			GAMEOBJECT_MANAGER.AccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed && !paused)
 		{
 			keyNPressed = true;
 			GAMEOBJECT_MANAGER.DeccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed && !paused)
 		{
 			key1Pressed = true;
 			ChangePolygonMode();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !paused)
 		{
 			key2Pressed = true;
 			SwitchActiveFigure(figures[0]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !paused)
 		{
 			key3Pressed = true;
 			SwitchActiveFigure(figures[1]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !paused)
 		{
 			key4Pressed = true;
 			SwitchActiveFigure(figures[2]);

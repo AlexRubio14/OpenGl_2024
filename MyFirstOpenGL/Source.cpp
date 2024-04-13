@@ -63,7 +63,6 @@ void main() {
 		//Assign initial values to programs
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
-		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
 
 		//Generate game loop
@@ -78,40 +77,7 @@ void main() {
 			INPUT_MANAGER.Update(GAMEOBJECT_MANAGER.gameObjects);
 			TIME_MANAGER.Update();
 
-			if (!INPUT_MANAGER.GetPaused()) {
-
-				if (GAMEOBJECT_MANAGER.gameObjects[0]->GetIsActive()) {
-					// CUBE UPDATE
-					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); // Indicate to GPU wich programs has to use
-					glBindVertexArray(vaoCube); // Define which VAO do we use 
-					GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Apply velocity into forward direction
-					glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Define what we want to draw
-					glBindVertexArray(0); // We desconfigurate the vao which we have used
-				}
-
-				if (GAMEOBJECT_MANAGER.gameObjects[1]->GetIsActive()) {
-					// ORTHOHEDRON UPDATE
-					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-					glBindVertexArray(vaoOrthohedron);
-					GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
-					glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
-					glBindVertexArray(0);
-
-					glUseProgram(0);
-				}
-
-				if (GAMEOBJECT_MANAGER.gameObjects[2]->GetIsActive()) {
-					// PYRAMID UPDATE
-					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
-					glBindVertexArray(vaoPyramid);
-					GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
-					glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
-					glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-					glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
-					glBindVertexArray(0);
-					glUseProgram(0);
-				}
-			}
+			GAMEOBJECT_MANAGER.Draw(vaoCube, vaoOrthohedron, vaoPyramid);
 
 			//Switch buffers
 			glFlush();
