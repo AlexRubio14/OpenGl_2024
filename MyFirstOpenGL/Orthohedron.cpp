@@ -7,11 +7,13 @@ void Orthohedron::Update(float dt)
 	transform.rotation = transform.rotation + glm::vec3(0.f, 0.f, 1.f) * angularVelocity;
 
 	if (transform.scale.y <= 0.3f)
-		transform.scaleVelocity = 0.01f;
+		scaleVelocity = 0.01f;
 	else if (transform.scale.y >= 0.7f)
-		transform.scaleVelocity = -0.01f;
+		scaleVelocity = -0.01f;
 
-	transform.scale.y += transform.scaleVelocity;
+	transform.scale.y += scaleVelocity;
+
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
 }
 
 glm::mat4 Orthohedron::ApplyModelMatrix()

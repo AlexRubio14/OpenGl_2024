@@ -10,6 +10,8 @@ void Cube::Update(float dt)
 	if (transform.position.y >= 0.5f || transform.position.y <= -0.5f) {
 		transform.forward = transform.forward * -1.f;
 	}
+
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix())); //Aplicamos la matriz al shader
 }
 
 glm::mat4 Cube::ApplyModelMatrix()

@@ -36,4 +36,6 @@ public:
 	}
 
 	std::vector<GLuint> compiledPrograms;
+
+	void DeletePrograms();
 };

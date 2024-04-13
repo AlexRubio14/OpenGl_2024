@@ -8,31 +8,34 @@
 #include "ShaderProgramManager.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
+#include "InputManager.h"
 
 void main() {
 
-	//Definir semillas del rand según el tiempo
 	srand(static_cast<unsigned int>(time(NULL)));
 
 	GL_MANAGER.WindowsConfiguration(); 
 
-	//Permitimos a GLEW usar funcionalidades experimentales
+	// Give GLEW permission to use experimental functionalities
 	glewExperimental = GL_TRUE;
 
 	GL_MANAGER.ActivateBackCulling(); 
 
-	//Inicializamos GLEW y controlamos errores
+	// Initialize GLEW and control errors Inicializamos GLEW y controlamos errores
 	if (glewInit() == GLEW_OK) {
 
-		//Declarar instancia del gameObject
 		GAMEOBJECT_MANAGER.CreateFigures(); 
 
-		//Definimos color para limpiar el buffer de color
+		// Define wich color we use for cleaning buffer
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
-		//Definimos modo de dibujo para cada cara
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		// Define draw mode to -> face to face
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
+		//TODO Convert into a single vao & vbo
+		/*GLuint vaoFigures, vboFigures;
+		GL_MANAGER.InitializeVaoAndVbo(vaoFigures, vboFigures, 3, 3);*/
+
 		// CUBE VAO & VBO
 		GLuint vaoCube, vboCube;
 
@@ -57,72 +60,74 @@ void main() {
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		//Asignar valores iniciales al programa
+		//Assign initial values to programs
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
-		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
+		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
 
-
-
-		//Generamos el game loop
+		//Generate game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
 
-			//Pulleamos los eventos (botones, teclas, mouse...)
+			//Pull events (buttons, keys, mouse...)
 			glfwPollEvents();
 
-			//Limpiamos los buffers
+			//Clean buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+			INPUT_MANAGER.Update(GAMEOBJECT_MANAGER.gameObjects);
 			TIME_MANAGER.Update();
 
-			// CUBE UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); //Indicar a la tarjeta GPU que programa debe usar
-			glBindVertexArray(vaoCube); //Definimos que queremos usar el VAO con los puntos
-			GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Aplico velocidad hacia el forward
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[0]->ApplyModelMatrix())); //Aplicamos la matriz al shader
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Definimos que queremos dibujar
-			glBindVertexArray(0); //Dejamos de usar el VAO indicado anteriormente
+			if (!INPUT_MANAGER.GetPaused()) {
 
-			// ORTHOHEDRON UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-			glBindVertexArray(vaoOrthohedron);
-			GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[1]->ApplyModelMatrix()));
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
-			glBindVertexArray(0);
+				if (GAMEOBJECT_MANAGER.gameObjects[0]->GetIsActive()) {
+					// CUBE UPDATE
+					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]); // Indicate to GPU wich programs has to use
+					glBindVertexArray(vaoCube); // Define which VAO do we use 
+					GAMEOBJECT_MANAGER.gameObjects[0]->Update(0.f); // Apply velocity into forward direction
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[0]->NumTotalTriangles()); //Define what we want to draw
+					glBindVertexArray(0); // We desconfigurate the vao which we have used
+				}
 
-			glUseProgram(0);
+				if (GAMEOBJECT_MANAGER.gameObjects[1]->GetIsActive()) {
+					// ORTHOHEDRON UPDATE
+					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+					glBindVertexArray(vaoOrthohedron);
+					GAMEOBJECT_MANAGER.gameObjects[1]->Update(0.f);
+					glDrawArrays(GL_TRIANGLE_STRIP, 0, GAMEOBJECT_MANAGER.gameObjects[1]->NumTotalTriangles());
+					glBindVertexArray(0);
 
-			// PYRAMID UPDATE
-			glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
-			glBindVertexArray(vaoPyramid);
-			GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
-			glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(GAMEOBJECT_MANAGER.gameObjects[2]->ApplyModelMatrix()));
-			glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.timer);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
-			glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
-			glBindVertexArray(0);
-			glUseProgram(0);
+					glUseProgram(0);
+				}
 
-			
+				if (GAMEOBJECT_MANAGER.gameObjects[2]->GetIsActive()) {
+					// PYRAMID UPDATE
+					glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+					glBindVertexArray(vaoPyramid);
+					GAMEOBJECT_MANAGER.gameObjects[2]->Update(0.f);
+					glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
+					glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
+					glDrawArrays(GL_TRIANGLE_STRIP, 6, 4);
+					glBindVertexArray(0);
+					glUseProgram(0);
+				}
+			}
 
-			//Cambiamos buffers
+			//Switch buffers
 			glFlush();
 			glfwSwapBuffers(GL_MANAGER.window);
 		}
 
-		//Desactivar y eliminar programa
+		//Deactive & delete program
 		glUseProgram(0);
-		glDeleteProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-
+		SHADERPROGRAM_MANAGER.DeletePrograms();
 	}
 	else {
-		std::cout << "Ha petao." << std::endl;
+		std::cout << "Program Crashes" << std::endl;
 		glfwTerminate();
 	}
 
-	//Finalizamos GLFW
+	//Finish GLFW
 	glfwTerminate();
 
 }
