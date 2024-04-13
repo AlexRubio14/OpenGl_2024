@@ -36,26 +36,7 @@ void main() {
 		/*GLuint vaoFigures, vboFigures;
 		GL_MANAGER.InitializeVaoAndVbo(vaoFigures, vboFigures, 3, 3);*/
 
-		// CUBE VAO & VBO
-		GLuint vaoCube, vboCube;
-
-		GL_MANAGER.InitializeVaoAndVbo(vaoCube, vboCube, 1, 1);
-		GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[0], 0);
-		GL_MANAGER.VaoDesconfiguration(0);
-
-		// ORTHOEDRON VAO & VBO
-		GLuint vaoOrthohedron, vboOrthohedron;
-
-		GL_MANAGER.InitializeVaoAndVbo(vaoOrthohedron, vboOrthohedron, 1, 1);
-		GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[1], 0);
-		GL_MANAGER.VaoDesconfiguration(0);
-
-		// PYRAMID VAO & VBO
-		GLuint vaoPyramid, vboPyramid;
-
-		GL_MANAGER.InitializeVaoAndVbo(vaoPyramid, vboPyramid, 1, 1);
-		GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[2], 0);
-		GL_MANAGER.VaoDesconfiguration(0);
+		GL_MANAGER.SetUpVaosAndVbos();
 
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -77,7 +58,7 @@ void main() {
 			INPUT_MANAGER.Update(GAMEOBJECT_MANAGER.gameObjects);
 			TIME_MANAGER.Update();
 
-			GAMEOBJECT_MANAGER.Draw(vaoCube, vaoOrthohedron, vaoPyramid);
+			GAMEOBJECT_MANAGER.Draw(GL_MANAGER.vaos);
 
 			//Switch buffers
 			glFlush();
@@ -95,5 +76,4 @@ void main() {
 
 	//Finish GLFW
 	glfwTerminate();
-
 }

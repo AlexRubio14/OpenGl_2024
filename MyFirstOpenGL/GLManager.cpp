@@ -1,11 +1,22 @@
 #include "GLManager.h"
+#include "GameObjectManager.h"
 
-void ResizeWindow(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHeight)
-{
-	//Definir nuevo tamaño del viewport
-	glViewport(0, 0, iFrameBufferWidth, iFrameBufferHeight);
+GLManager::GLManager() {
 
-	glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
+	// CUBE VAO & VBO
+	GLuint vaoCube, vboCube;
+	// ORTHOEDRON VAO & VBO
+	GLuint vaoOrthohedron, vboOrthohedron;
+	// PYRAMID VAO & VBO
+	GLuint vaoPyramid, vboPyramid;
+
+	vaos.push_back(vaoCube);
+	vaos.push_back(vaoOrthohedron);
+	vaos.push_back(vaoPyramid);
+
+	vbos.push_back(vboCube);
+	vbos.push_back(vboOrthohedron);
+	vbos.push_back(vboPyramid);
 }
 
 void GLManager::WindowsConfiguration()
@@ -82,4 +93,29 @@ void GLManager::VaoDesconfiguration(int numVao)
 {
 	//Desvinculamos VAO
 	glBindVertexArray(numVao);
+}
+
+void GLManager::SetUpVaosAndVbos()
+{
+	GL_MANAGER.InitializeVaoAndVbo(vaos[0], vbos[0], 1, 1);
+	GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[0], 0);
+	GL_MANAGER.VaoDesconfiguration(0);
+	
+
+	GL_MANAGER.InitializeVaoAndVbo(vaos[1], vbos[1], 1, 1);
+	GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[1], 0);
+	GL_MANAGER.VaoDesconfiguration(0);
+	
+
+	GL_MANAGER.InitializeVaoAndVbo(vaos[2], vbos[2], 1, 1);
+	GL_MANAGER.VboConfiguration(GAMEOBJECT_MANAGER.gameObjects[2], 0);
+	GL_MANAGER.VaoDesconfiguration(0);
+}
+
+void ResizeWindow(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHeight)
+{
+	//Definir nuevo tamaño del viewport
+	glViewport(0, 0, iFrameBufferWidth, iFrameBufferHeight);
+
+	glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), iFrameBufferWidth, iFrameBufferHeight);
 }

@@ -29,18 +29,13 @@ void GameObjectManager::DeccelerateFigures()
 	}
 }
 
-void GameObjectManager::Draw(GLuint vaoCube, GLuint vaoOrthohedron, GLuint vaoPyramid)
+void GameObjectManager::Draw(std::vector<GLuint> vaos)
 {
-	if (GAMEOBJECT_MANAGER.gameObjects[0]->GetIsActive()) {
-		gameObjects[0]->Draw(vaoCube);
-	}
-
-	if (GAMEOBJECT_MANAGER.gameObjects[1]->GetIsActive()) {
-		gameObjects[1]->Draw(vaoOrthohedron);
-	}
-
-	if (GAMEOBJECT_MANAGER.gameObjects[2]->GetIsActive()) {
-		gameObjects[2]->Draw(vaoPyramid);
+	for (int i = 0; i < vaos.size(); i++)
+	{
+		if (GAMEOBJECT_MANAGER.gameObjects[i]->GetIsActive()) {
+			gameObjects[i]->Draw(vaos[i]);
+		}
 	}
 }
 
