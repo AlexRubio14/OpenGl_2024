@@ -10,6 +10,9 @@ void Pyramid::Update(float dt)
 	if (transform.position.y >= 0.4f || transform.position.y <= -0.4f) {
 		transform.forward = transform.forward * -1.f;
 	}
+
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+
 }
 
 glm::mat4 Pyramid::ApplyModelMatrix()

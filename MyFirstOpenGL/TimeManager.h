@@ -7,7 +7,14 @@
 class TimeManager {
 private:
 
-	TimeManager() = default;
+	float deltaTime;
+	int FPS;
+	float frameTime;
+	float previousGameTime;
+
+	float ShaderTimer;
+
+	TimeManager();	
 
 	TimeManager(const TimeManager&) = delete;
 	TimeManager& operator =(const TimeManager&) = delete;
@@ -20,14 +27,7 @@ public:
 		return timeManager;
 	}
 
-	float timer = 0;
+	void Update();
 
-	void Update() {
-		
-		int currentTime = glfwGetTime();
-
-		currentTime %= 6;
-
-		timer = currentTime;
-	};
+	inline float GetShaderTimer() const { return ShaderTimer; }
 };

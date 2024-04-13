@@ -8,12 +8,23 @@ class InputManager
 {
 private:
 
-	InputManager() { paused = false, polygonsAreFill = true; };
+	InputManager()
+		: paused(false), polygonsAreFill(true), pauseKeyPressed(false), key1Pressed(false), 
+		  key2Pressed(false), key3Pressed(false), key4Pressed(false), keyMPressed(false), keyNPressed(false) {};
 
 	InputManager(const InputManager&) = delete;
 	InputManager& operator =(const InputManager&) = delete;
 
 	bool paused;
+	bool pauseKeyPressed;
+
+	bool keyMPressed;
+	bool keyNPressed;
+
+	bool key1Pressed;
+	bool key2Pressed;
+	bool key3Pressed;
+	bool key4Pressed;
 
 	bool polygonsAreFill;
 
@@ -27,58 +38,91 @@ public:
 
 	void Update(std::vector<GameObject*> figures) {
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS && !pauseKeyPressed) 
 		{
+			pauseKeyPressed = true;
 			Pause();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed)
 		{
-			AccelerateFIgures(figures);
+			keyMPressed = true;
+			GAMEOBJECT_MANAGER.AccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed)
 		{
-			DeccelerateFigures(figures);
+			keyNPressed = true;
+			GAMEOBJECT_MANAGER.DeccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed)
 		{
+			key1Pressed = true;
 			ChangePolygonMode();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed)
 		{
+			key2Pressed = true;
 			SwitchActiveFigure(figures[0]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed)
 		{
+			key3Pressed = true;
 			SwitchActiveFigure(figures[1]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed)
 		{
+			key4Pressed = true;
 			SwitchActiveFigure(figures[2]);
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_RELEASE)
+		{
+			pauseKeyPressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_RELEASE)
+		{
+			keyMPressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_RELEASE)
+		{
+			keyNPressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_RELEASE)
+		{
+			pauseKeyPressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_RELEASE)
+		{
+			key1Pressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_RELEASE)
+		{
+			key2Pressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_RELEASE)
+		{
+			key3Pressed = false;
+		}
+
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_RELEASE)
+		{
+			key4Pressed = false;
 		}
 	}
 
 	void Pause() {
-		paused != paused;
-	}
-
-	void AccelerateFIgures(std::vector<GameObject*> figures) {
-		
-		for (int i = 0; i < figures.size(); i++) {
-			figures[i]->SetVelocity(figures[i]->GetVelocity() * 0.1f);
-		}
-	}
-
-	void DeccelerateFigures(std::vector<GameObject*> figures) {
-
-		for (int i = 0; i < figures.size(); i++) {
-			figures[i]->SetVelocity((figures[i]->GetVelocity() * 0.1f) * -1);
-		}
+		paused = !paused;
 	}
 
 	void ChangePolygonMode() {
