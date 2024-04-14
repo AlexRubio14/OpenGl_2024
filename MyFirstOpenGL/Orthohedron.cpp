@@ -1,19 +1,31 @@
 #include "Orthohedron.h"
-#include <iostream>
 
-void Orthohedron::Update(float dt)
+void Orthohedron::Update(float _dt)
 {
 	// Apply rotation into forward direction
 	transform.rotation = transform.rotation + glm::vec3(0.f, 0.f, 1.f) * angularVelocity;
 
 	if (transform.scale.y <= 0.3f)
 		scaleVelocity = 0.01f;
-	else if (transform.scale.y >= 0.7f)
+	else if (transform.scale.y >= 1.f)
 		scaleVelocity = -0.01f;
 
 	transform.scale.y += scaleVelocity;
 
-	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
+}
+
+void Orthohedron::Draw(GLuint _vao)
+{
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
+	glBindVertexArray(_vao);
+
+	if (!TIME_MANAGER.GetPaused()) {
+		Update(0.f);
+	}
+	
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, NumTotalTriangles());
+	glBindVertexArray(0);
 }
 
 glm::mat4 Orthohedron::ApplyModelMatrix()

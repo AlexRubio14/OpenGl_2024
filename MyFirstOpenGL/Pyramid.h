@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "TimeManager.h"
 
 class Pyramid : public GameObject
 {
@@ -46,7 +47,10 @@ public:
 
 	};
 
-	virtual void Update(float dt) override;
+	virtual void Update(float _dt) override;
+
+	virtual void Draw(GLuint _vao) override;
+
 
 	virtual glm::mat4 ApplyModelMatrix() override;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include "GLManager.h"
+#include "GameObjectManager.h"
 
 #define INPUT_MANAGER InputManager::Instance()
 
@@ -9,13 +10,12 @@ class InputManager
 private:
 
 	InputManager()
-		: paused(false), polygonsAreFill(true), pauseKeyPressed(false), key1Pressed(false), 
+		: polygonsAreFill(true), pauseKeyPressed(false), key1Pressed(false), 
 		  key2Pressed(false), key3Pressed(false), key4Pressed(false), keyMPressed(false), keyNPressed(false) {};
 
 	InputManager(const InputManager&) = delete;
 	InputManager& operator =(const InputManager&) = delete;
 
-	bool paused;
 	bool pauseKeyPressed;
 
 	bool keyMPressed;
@@ -36,48 +36,48 @@ public:
 		return inputManager;
 	}
 
-	void Update(std::vector<GameObject*> figures) {
+	void Update(std::vector<GameObject*> _figures) {
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS && !pauseKeyPressed) 
 		{
 			pauseKeyPressed = true;
-			Pause();
+			TIME_MANAGER.Pause();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed && !TIME_MANAGER.GetPaused())
 		{
 			keyMPressed = true;
 			GAMEOBJECT_MANAGER.AccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed && !TIME_MANAGER.GetPaused())
 		{
 			keyNPressed = true;
 			GAMEOBJECT_MANAGER.DeccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key1Pressed = true;
 			ChangePolygonMode();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key2Pressed = true;
-			SwitchActiveFigure(figures[0]);
+			SwitchActiveFigure(_figures[0]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key3Pressed = true;
-			SwitchActiveFigure(figures[1]);
+			SwitchActiveFigure(_figures[1]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key4Pressed = true;
-			SwitchActiveFigure(figures[2]);
+			SwitchActiveFigure(_figures[2]);
 		}
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_RELEASE)
@@ -121,10 +121,6 @@ public:
 		}
 	}
 
-	void Pause() {
-		paused = !paused;
-	}
-
 	void ChangePolygonMode() {
 
 		if (polygonsAreFill) {
@@ -137,9 +133,7 @@ public:
 		}
 	}
 
-	void SwitchActiveFigure(GameObject* figure) {
-		figure->SetIsActive(!figure->GetIsActive());
+	void SwitchActiveFigure(GameObject* _figure) {
+		_figure->SetIsActive(!_figure->GetIsActive());
 	}
-
-	inline bool GetPaused() const { return paused; }
 };

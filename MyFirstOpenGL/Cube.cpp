@@ -1,6 +1,7 @@
 #include "Cube.h"
 
-void Cube::Update(float dt)
+
+void Cube::Update(float _dt)
 {
 	// Apply velocity and rotation into forward direction
 	transform.position = transform.position + transform.forward * velocity;
@@ -11,7 +12,23 @@ void Cube::Update(float dt)
 		transform.forward = transform.forward * -1.f;
 	}
 
-	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix())); //Aplicamos la matriz al shader
+	modelMatrix = ApplyModelMatrix();
+}
+
+void Cube::Draw(GLuint _vao)
+{
+	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
+	glBindVertexArray(_vao);
+
+	if (!TIME_MANAGER.GetPaused()) {
+		Update(0.f);
+	}
+
+	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "transform"), 1, GL_FALSE, glm::value_ptr(modelMatrix)); //Aplicamos la matriz al shader
+
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, NumTotalTriangles());
+	glBindVertexArray(0);
 }
 
 glm::mat4 Cube::ApplyModelMatrix()

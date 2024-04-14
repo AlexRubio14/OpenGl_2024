@@ -49,9 +49,15 @@ public:
 			-0.2f, +0.2f, +0.2f, // 1
 			+0.2f, +0.2f, +0.2f  // 0
 		};
+
+		modelMatrix = glm::mat4(1.f);
 	};
 
-	virtual void Update(float dt) override;
+	glm::mat4 modelMatrix;
+
+	virtual void Update(float _dt) override;
+
+	virtual void Draw(GLuint _vao) override;
 
 	virtual glm::mat4 ApplyModelMatrix() override;
 };

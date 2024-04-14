@@ -8,15 +8,23 @@ private:
 
 	ShaderProgramManager()
 	{
-		// CUBE & ORTHOHEDRON COMPILAR SHADERS & PROGRAM
+		// CUBE PROGRAM
 		ShaderProgram shaderProgramCube; 
 
 		shaderProgramCube.LoadVertexShader("VS_Transform.glsl");
 		shaderProgramCube.LoadFragmentShader("FS_YellowOrange.glsl");
 		compiledPrograms.push_back(shaderProgramCube.CreateProgram(shaderProgramCube));
 
+		// ORTHOHEDRON PROGRAM
 
-		// PYRAMID COMPILAR SHADERS & PROGRAM
+		ShaderProgram shaderProgramOrthohedron;
+
+		shaderProgramOrthohedron.LoadVertexShader("VS_Transform.glsl");
+		shaderProgramOrthohedron.LoadFragmentShader("FS_YellowOrange.glsl");
+		compiledPrograms.push_back(shaderProgramOrthohedron.CreateProgram(shaderProgramOrthohedron));
+
+
+		// PYRAMID PROGRAM
 		ShaderProgram shaderProgramPyramid;
 
 		shaderProgramPyramid.LoadVertexShader("VS_Transform.glsl");

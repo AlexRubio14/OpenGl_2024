@@ -1,6 +1,5 @@
 #pragma once
 #include <GLFW/glfw3.h>
-#include <iostream>
 
 #define TIME_MANAGER TimeManager::Instance()
 
@@ -10,9 +9,10 @@ private:
 	float deltaTime;
 	int FPS;
 	float frameTime;
-	float previousGameTime;
+	float currentTime;
+	float timeToReset;
 
-	float ShaderTimer;
+	bool paused;
 
 	TimeManager();	
 
@@ -29,5 +29,7 @@ public:
 
 	void Update();
 
-	inline float GetShaderTimer() const { return ShaderTimer; }
+	inline float GetCurrentTime() const { return currentTime; }
+	inline bool GetPaused() const { return paused; }
+	inline void Pause() { paused = !paused; }
 };

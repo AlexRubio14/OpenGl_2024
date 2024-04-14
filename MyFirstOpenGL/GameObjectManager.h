@@ -2,8 +2,6 @@
 #include "Cube.h"
 #include "Orthohedron.h"
 #include "Pyramid.h"
-#include "TimeManager.h"
-#include "GLManager.h"
 
 #define GAMEOBJECT_MANAGER GameObjectManager::Instance()
 
@@ -34,5 +32,5 @@ public:
 	void AccelerateFigures();
 	void DeccelerateFigures();
 
-	void Draw();
+	void Draw(std::vector<GLuint> _vaos);
 };
