@@ -37,7 +37,7 @@ public:
 		return inputManager;
 	}
 
-	void Update(std::vector<GameObject*> figures) {
+	void Update(std::vector<GameObject*> _figures) {
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS && !pauseKeyPressed) 
 		{
@@ -66,19 +66,19 @@ public:
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !paused)
 		{
 			key2Pressed = true;
-			SwitchActiveFigure(figures[0]);
+			SwitchActiveFigure(_figures[0]);
 		}
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !paused)
 		{
 			key3Pressed = true;
-			SwitchActiveFigure(figures[1]);
+			SwitchActiveFigure(_figures[1]);
 		}
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !paused)
 		{
 			key4Pressed = true;
-			SwitchActiveFigure(figures[2]);
+			SwitchActiveFigure(_figures[2]);
 		}
 
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_RELEASE)
@@ -138,8 +138,8 @@ public:
 		}
 	}
 
-	void SwitchActiveFigure(GameObject* figure) {
-		figure->SetIsActive(!figure->GetIsActive());
+	void SwitchActiveFigure(GameObject* _figure) {
+		_figure->SetIsActive(!_figure->GetIsActive());
 	}
 
 	inline bool GetPaused() const { return paused; }

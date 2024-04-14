@@ -29,12 +29,8 @@ void main() {
 		// Define wich color we use for cleaning buffer
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
-		// Define draw mode to -> face to face
+		// Define draw mode to -> Fill
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
-		//TODO Convert into a single vao & vbo
-		/*GLuint vaoFigures, vboFigures;
-		GL_MANAGER.InitializeVaoAndVbo(vaoFigures, vboFigures, 3, 3);*/
 
 		GL_MANAGER.SetUpVaosAndVbos();
 

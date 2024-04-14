@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 
-void Orthohedron::Update(float dt)
+void Orthohedron::Update(float _dt)
 {
 	// Apply rotation into forward direction
 	transform.rotation = transform.rotation + glm::vec3(0.f, 0.f, 1.f) * angularVelocity;
@@ -17,10 +17,10 @@ void Orthohedron::Update(float dt)
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
 }
 
-void Orthohedron::Draw(GLuint vao)
+void Orthohedron::Draw(GLuint _vao)
 {
 	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
-	glBindVertexArray(vao);
+	glBindVertexArray(_vao);
 
 	if (!INPUT_MANAGER.GetPaused()) {
 		Update(0.f);

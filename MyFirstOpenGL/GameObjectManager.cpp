@@ -29,12 +29,12 @@ void GameObjectManager::DeccelerateFigures()
 	}
 }
 
-void GameObjectManager::Draw(std::vector<GLuint> vaos)
+void GameObjectManager::Draw(std::vector<GLuint> _vaos)
 {
-	for (int i = 0; i < vaos.size(); i++)
+	for (int i = 0; i < _vaos.size(); i++)
 	{
 		if (GAMEOBJECT_MANAGER.gameObjects[i]->GetIsActive()) {
-			gameObjects[i]->Draw(vaos[i]);
+			gameObjects[i]->Draw(_vaos[i]);
 		}
 	}
 }

@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 
-void Cube::Update(float dt)
+void Cube::Update(float _dt)
 {
 	// Apply velocity and rotation into forward direction
 	transform.position = transform.position + transform.forward * velocity;
@@ -16,10 +16,10 @@ void Cube::Update(float dt)
 	modelMatrix = ApplyModelMatrix();
 }
 
-void Cube::Draw(GLuint vao)
+void Cube::Draw(GLuint _vao)
 {
 	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-	glBindVertexArray(vao);
+	glBindVertexArray(_vao);
 
 	if (!INPUT_MANAGER.GetPaused()) {
 		Update(0.f);

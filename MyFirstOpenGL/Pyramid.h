@@ -47,9 +47,9 @@ public:
 
 	};
 
-	virtual void Update(float dt) override;
+	virtual void Update(float _dt) override;
 
-	virtual void Draw(GLuint vao) override;
+	virtual void Draw(GLuint _vao) override;
 
 
 	virtual glm::mat4 ApplyModelMatrix() override;

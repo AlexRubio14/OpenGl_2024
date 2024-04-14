@@ -36,13 +36,13 @@ public:
 	void ActivateFrontCulling();
 	void ActivateBackCulling();
 
-	void InitializeVaoAndVbo(GLuint& vao, GLuint& vbo, const int numVaos, const int numVbos);
+	void InitializeVaoAndVbo(GLuint& _vao, GLuint& _vbo, const int _numVaos, const int _numVbos);
 
-	void VboConfiguration(GameObject* gameObject, const int numVbo, const int dimensions = 3);
+	void VboConfiguration(GameObject* _gameObject, const int _numVbo, const int _dimensions = 3);
 
-	void VaoDesconfiguration(const int numVao);
+	void VaoDesconfiguration(const int _numVao);
 
 	void SetUpVaosAndVbos();
 };
 
-void ResizeWindow(GLFWwindow* window, int iFrameBufferWidth, int iFrameBufferHeight); 
+void ResizeWindow(GLFWwindow* _window, int _iFrameBufferWidth, int _iFrameBufferHeight); 

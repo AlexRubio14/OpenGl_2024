@@ -1,15 +1,15 @@
 #include "ShaderProgram.h"
 
-std::string ShaderProgram::Load_File(const std::string& filePath) {
+std::string ShaderProgram::Load_File(const std::string& _filePath) {
 
-	std::ifstream file(filePath);
+	std::ifstream file(_filePath);
 
 	std::string fileContent;
 	std::string line;
 
 	//Lanzamos error si el archivo no se ha podido abrir
 	if (!file.is_open()) {
-		std::cerr << "No se ha podido abrir el archivo: " << filePath << std::endl;
+		std::cerr << "No se ha podido abrir el archivo: " << _filePath << std::endl;
 		std::exit(EXIT_FAILURE);
 	}
 
@@ -24,13 +24,13 @@ std::string ShaderProgram::Load_File(const std::string& filePath) {
 	return fileContent;
 }
 
-GLuint ShaderProgram::LoadFragmentShader(const std::string& filePath) {
+GLuint ShaderProgram::LoadFragmentShader(const std::string& _filePath) {
 
 	// Crear un fragment shader
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 	//Usamos la funcion creada para leer el fragment shader y almacenarlo 
-	std::string sShaderCode = Load_File(filePath);
+	std::string sShaderCode = Load_File(_filePath);
 	const char* cShaderSource = sShaderCode.c_str();
 
 	//Vinculamos el fragment shader con su código fuente
@@ -65,13 +65,13 @@ GLuint ShaderProgram::LoadFragmentShader(const std::string& filePath) {
 	}
 }
 
-GLuint ShaderProgram::LoadGeometryShader(const std::string& filePath) {
+GLuint ShaderProgram::LoadGeometryShader(const std::string& _filePath) {
 
 	// Crear un vertex shader
 	geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
 
 	//Usamos la funcion creada para leer el vertex shader y almacenarlo 
-	std::string sShaderCode = Load_File(filePath);
+	std::string sShaderCode = Load_File(_filePath);
 	const char* cShaderSource = sShaderCode.c_str();
 
 	//Vinculamos el vertex shader con su código fuente
@@ -106,13 +106,13 @@ GLuint ShaderProgram::LoadGeometryShader(const std::string& filePath) {
 	}
 }
 
-GLuint ShaderProgram::LoadVertexShader(const std::string& filePath) {
+GLuint ShaderProgram::LoadVertexShader(const std::string& _filePath) {
 
 	// Crear un vertex shader
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 	//Usamos la funcion creada para leer el vertex shader y almacenarlo 
-	std::string sShaderCode = Load_File(filePath);
+	std::string sShaderCode = Load_File(_filePath);
 	const char* cShaderSource = sShaderCode.c_str();
 
 	//Vinculamos el vertex shader con su código fuente
@@ -148,22 +148,22 @@ GLuint ShaderProgram::LoadVertexShader(const std::string& filePath) {
 }
 
 //Función que dado un struct que contiene los shaders de un programa generara el programa entero de la GPU
-GLuint ShaderProgram::CreateProgram(const ShaderProgram& shaders) {
+GLuint ShaderProgram::CreateProgram(const ShaderProgram& _shaders) {
 
 	//Crear programa de la GPU
 	GLuint program = glCreateProgram();
 
 	//Verificar que existe un vertex shader y adjuntarlo al programa
-	if (shaders.vertexShader != 0) {
-		glAttachShader(program, shaders.vertexShader);
+	if (_shaders.vertexShader != 0) {
+		glAttachShader(program, _shaders.vertexShader);
 	}
 
-	if (shaders.geometryShader != 0) {
-		glAttachShader(program, shaders.geometryShader);
+	if (_shaders.geometryShader != 0) {
+		glAttachShader(program, _shaders.geometryShader);
 	}
 
-	if (shaders.fragmentShader != 0) {
-		glAttachShader(program, shaders.fragmentShader);
+	if (_shaders.fragmentShader != 0) {
+		glAttachShader(program, _shaders.fragmentShader);
 	}
 
 	// Linkear el programa
@@ -177,18 +177,18 @@ GLuint ShaderProgram::CreateProgram(const ShaderProgram& shaders) {
 	if (success) {
 
 		//Liberamos recursos
-		if (shaders.vertexShader != 0) {
-			glDetachShader(program, shaders.vertexShader);
+		if (_shaders.vertexShader != 0) {
+			glDetachShader(program, _shaders.vertexShader);
 		}
 
 		//Liberamos recursos
-		if (shaders.geometryShader != 0) {
-			glDetachShader(program, shaders.geometryShader);
+		if (_shaders.geometryShader != 0) {
+			glDetachShader(program, _shaders.geometryShader);
 		}
 
 		//Liberamos recursos
-		if (shaders.fragmentShader != 0) {
-			glDetachShader(program, shaders.fragmentShader);
+		if (_shaders.fragmentShader != 0) {
+			glDetachShader(program, _shaders.fragmentShader);
 		}
 
 		return program;

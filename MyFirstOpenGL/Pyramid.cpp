@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 
-void Pyramid::Update(float dt)
+void Pyramid::Update(float _dt)
 {
 	// Apply velocity and rotation into forward direction
 	transform.position = transform.position + transform.forward * velocity;
@@ -16,7 +16,7 @@ void Pyramid::Update(float dt)
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "transform"), 1, GL_FALSE, glm::value_ptr(ApplyModelMatrix()));
 }
 
-void Pyramid::Draw(GLuint vao)
+void Pyramid::Draw(GLuint _vao)
 {
 	// PYRAMID UPDATE
 	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[2]);

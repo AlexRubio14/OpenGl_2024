@@ -34,5 +34,5 @@ public:
 	void AccelerateFigures();
 	void DeccelerateFigures();
 
-	void Draw(std::vector<GLuint> vaos);
+	void Draw(std::vector<GLuint> _vaos);
 };
