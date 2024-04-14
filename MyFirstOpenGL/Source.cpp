@@ -34,13 +34,17 @@ void main() {
 
 		GL_MANAGER.SetUpVaosAndVbos();
 
+		//Assign initial values to programs
+
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		//Assign initial values to programs
 		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
-		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetShaderTimer());
+		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetCurrentTime());
+
+		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[2]);
+		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		//Generate game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {

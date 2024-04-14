@@ -5,6 +5,7 @@
 
 #include "Transform.h"
 #include "MatrixUtilities.h"
+#include "TimeManager.h"
 #include "ShaderProgramManager.h"
 
 class GameObject

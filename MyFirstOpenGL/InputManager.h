@@ -10,13 +10,12 @@ class InputManager
 private:
 
 	InputManager()
-		: paused(false), polygonsAreFill(true), pauseKeyPressed(false), key1Pressed(false), 
+		: polygonsAreFill(true), pauseKeyPressed(false), key1Pressed(false), 
 		  key2Pressed(false), key3Pressed(false), key4Pressed(false), keyMPressed(false), keyNPressed(false) {};
 
 	InputManager(const InputManager&) = delete;
 	InputManager& operator =(const InputManager&) = delete;
 
-	bool paused;
 	bool pauseKeyPressed;
 
 	bool keyMPressed;
@@ -42,40 +41,40 @@ public:
 		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_SPACE) == GLFW_PRESS && !pauseKeyPressed) 
 		{
 			pauseKeyPressed = true;
-  			Pause();
+			TIME_MANAGER.Pause();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed && !TIME_MANAGER.GetPaused())
 		{
 			keyMPressed = true;
 			GAMEOBJECT_MANAGER.AccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed && !TIME_MANAGER.GetPaused())
 		{
 			keyNPressed = true;
 			GAMEOBJECT_MANAGER.DeccelerateFigures();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key1Pressed = true;
 			ChangePolygonMode();
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key2Pressed = true;
 			SwitchActiveFigure(_figures[0]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key3Pressed = true;
 			SwitchActiveFigure(_figures[1]);
 		}
 
-		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !paused)
+		if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !TIME_MANAGER.GetPaused())
 		{
 			key4Pressed = true;
 			SwitchActiveFigure(_figures[2]);
@@ -122,10 +121,6 @@ public:
 		}
 	}
 
-	void Pause() {
-		paused = !paused;
-	}
-
 	void ChangePolygonMode() {
 
 		if (polygonsAreFill) {
@@ -141,6 +136,4 @@ public:
 	void SwitchActiveFigure(GameObject* _figure) {
 		_figure->SetIsActive(!_figure->GetIsActive());
 	}
-
-	inline bool GetPaused() const { return paused; }
 };

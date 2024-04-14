@@ -1,6 +1,5 @@
 #pragma once
 #include <GL/glew.h>
-
 #include <vector>
 #include <string>
 #include <fstream>

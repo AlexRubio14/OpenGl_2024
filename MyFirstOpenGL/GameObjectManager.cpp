@@ -33,7 +33,8 @@ void GameObjectManager::Draw(std::vector<GLuint> _vaos)
 {
 	for (int i = 0; i < _vaos.size(); i++)
 	{
-		if (GAMEOBJECT_MANAGER.gameObjects[i]->GetIsActive()) {
+		if (gameObjects[i]->GetIsActive()) 
+		{
 			gameObjects[i]->Draw(_vaos[i]);
 		}
 	}

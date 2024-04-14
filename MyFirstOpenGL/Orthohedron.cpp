@@ -1,6 +1,4 @@
 #include "Orthohedron.h"
-#include "InputManager.h"
-
 
 void Orthohedron::Update(float _dt)
 {
@@ -9,7 +7,7 @@ void Orthohedron::Update(float _dt)
 
 	if (transform.scale.y <= 0.3f)
 		scaleVelocity = 0.01f;
-	else if (transform.scale.y >= 0.7f)
+	else if (transform.scale.y >= 1.f)
 		scaleVelocity = -0.01f;
 
 	transform.scale.y += scaleVelocity;
@@ -22,7 +20,7 @@ void Orthohedron::Draw(GLuint _vao)
 	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
 	glBindVertexArray(_vao);
 
-	if (!INPUT_MANAGER.GetPaused()) {
+	if (!TIME_MANAGER.GetPaused()) {
 		Update(0.f);
 	}
 	

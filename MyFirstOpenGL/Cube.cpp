@@ -1,5 +1,4 @@
 #include "Cube.h"
-#include "InputManager.h"
 
 
 void Cube::Update(float _dt)
@@ -21,7 +20,7 @@ void Cube::Draw(GLuint _vao)
 	glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
 	glBindVertexArray(_vao);
 
-	if (!INPUT_MANAGER.GetPaused()) {
+	if (!TIME_MANAGER.GetPaused()) {
 		Update(0.f);
 	}
 
