@@ -24,6 +24,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GLManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Orthohedron.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -34,7 +35,8 @@
   <ItemGroup>
     <None Include="FS_Semaphore.glsl" />
     <None Include="FS_YellowOrange.glsl" />
-    <None Include="VS_Transform.glsl" />
+    <None Include="VS_Pyramid.glsl" />
+    <None Include="VS_Cubes.glsl" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

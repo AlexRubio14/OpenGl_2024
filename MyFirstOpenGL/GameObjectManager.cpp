@@ -2,8 +2,9 @@
 
 GameObjectManager::~GameObjectManager()
 {
-	for (int i = 0; i < gameObjects.size(); i++) {
-		delete gameObjects[i];
+	for (GameObject* gObj : gameObjects)
+	{
+		delete gObj;
 	}
 }
 
@@ -29,14 +30,30 @@ void GameObjectManager::DeccelerateFigures()
 	}
 }
 
-void GameObjectManager::Draw(std::vector<GLuint> _vaos)
+void GameObjectManager::Update(float _dt)
 {
-	for (int i = 0; i < _vaos.size(); i++)
-	{
-		if (gameObjects[i]->GetIsActive()) 
+	for (GameObject* gObj : gameObjects) {
+		if (!TIME_MANAGER.GetPaused())
 		{
-			gameObjects[i]->Draw(_vaos[i]);
+			gObj->Update(_dt);
 		}
 	}
+}
+
+void GameObjectManager::Render()
+{
+	for (GameObject* gObj : gameObjects)
+	{
+		if (gObj->GetIsActive())
+		{
+			gObj->Render();
+		}
+	}
+}
+
+void GameObjectManager::InitProgramsValues()
+{
+	for (GameObject* gObj : gameObjects)
+		gObj->InitProgramValues();
 }
 

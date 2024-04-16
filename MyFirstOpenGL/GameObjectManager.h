@@ -32,5 +32,8 @@ public:
 	void AccelerateFigures();
 	void DeccelerateFigures();
 
-	void Draw(std::vector<GLuint> _vaos);
+	void Update(float _dt);
+	void Render();
+
+	void InitProgramsValues();
 };
