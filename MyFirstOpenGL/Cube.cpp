@@ -46,8 +46,8 @@ Cube::Cube(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale)
 void Cube::Update(float _dt)
 {
 	// Apply velocity and rotation into forward direction
-	transform.position = transform.position + transform.forward * velocity;
-	transform.rotation = transform.rotation + glm::vec3(0.f, 1.f, 0.f) * angularVelocity; 
+	transform.position = transform.position + (transform.forward * velocity) * _dt;
+	transform.rotation = transform.rotation + (glm::vec3(0.f, 1.f, 0.f) * angularVelocity) * _dt;
 
 	// Invert forward when reached screen limits
 	if (transform.position.y >= 0.5f || transform.position.y <= -0.5f) {

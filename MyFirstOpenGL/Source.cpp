@@ -30,8 +30,6 @@ int main() {
 		//Assign initial values to programs
 		GAMEOBJECT_MANAGER.InitProgramsValues();
 
-		float dt = 0.f;
-
 		//Generate game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
 
@@ -44,7 +42,7 @@ int main() {
 			INPUT_MANAGER.Update();
 			TIME_MANAGER.Update();
 			
-			GAMEOBJECT_MANAGER.Update(dt);
+			GAMEOBJECT_MANAGER.Update(TIME_MANAGER.GetDeltaTime());
 			GAMEOBJECT_MANAGER.Render();
 
 			//Switch buffers

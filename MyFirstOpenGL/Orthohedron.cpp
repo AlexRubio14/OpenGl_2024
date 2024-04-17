@@ -48,14 +48,14 @@ Orthohedron::Orthohedron(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _sc
 void Orthohedron::Update(float _dt)
 {
 	// Apply rotation into forward direction
-	transform.rotation = transform.rotation + (glm::vec3(0.f, 0.f, 1.f) * angularVelocity);
+	transform.rotation = transform.rotation + (glm::vec3(0.f, 0.f, 1.f) * angularVelocity) * _dt;
 
 	if (transform.scale.y <= 0.3f)
 		scaleVelocity = 0.01f;
 	else if (transform.scale.y >= 1.f)
 		scaleVelocity = -0.01f;
 
-	transform.scale.y += scaleVelocity;
+	transform.scale.y += scaleVelocity * _dt;
 
 	translationMatrix = MatrixUtilities::GenerateTranslationMatrix(transform.position);
 	rotationMatrix = MatrixUtilities::GenerateRotationMatrix(transform.rotation, transform.rotation.z);

@@ -47,8 +47,8 @@ Pyramid::Pyramid(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale)
 void Pyramid::Update(float _dt)
 {
 	// Apply velocity and rotation into forward direction
-	transform.position = transform.position + transform.forward * velocity ;
-	transform.rotation = transform.rotation + glm::vec3(1.f, 0.f, 0.f) * angularVelocity + glm::vec3(0.f, 1.f, 0.f) * angularVelocity;
+	transform.position = transform.position + transform.forward * velocity * _dt;
+	transform.rotation = transform.rotation + ((glm::vec3(1.f, 0.f, 0.f) * angularVelocity + glm::vec3(0.f, 1.f, 0.f) * angularVelocity) * _dt);
 
 	// Invert forward when reached screen limits
 	if (transform.position.y >= 0.4f || transform.position.y <= -0.4f) {
@@ -66,7 +66,6 @@ void Pyramid::Update(float _dt)
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "rotationMatrixX"), 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "rotationMatrixY"), 1, GL_FALSE, glm::value_ptr(rotationMatrixY));
 	glUniformMatrix4fv(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "scaleMatrix"), 1, GL_FALSE, glm::value_ptr(scaleMatrix));
-	
 }
 
 void Pyramid::Render()

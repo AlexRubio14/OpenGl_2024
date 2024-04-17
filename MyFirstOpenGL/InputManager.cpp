@@ -8,37 +8,37 @@ void InputManager::Update()
 		TIME_MANAGER.Pause();
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_M) == GLFW_PRESS && !keyMPressed)
 	{
 		keyMPressed = true;
-		GAMEOBJECT_MANAGER.AccelerateFigures();
+		TIME_MANAGER.AccelerateScaleTime();
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_N) == GLFW_PRESS && !keyNPressed)
 	{
 		keyNPressed = true;
-		GAMEOBJECT_MANAGER.DeccelerateFigures();
+		TIME_MANAGER.DeclerateScaleTime();
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_1) == GLFW_PRESS && !key1Pressed)
 	{
 		key1Pressed = true;
 		ChangePolygonMode();
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_2) == GLFW_PRESS && !key2Pressed)
 	{
 		key2Pressed = true;
 		SwitchActiveFigure(GAMEOBJECT_MANAGER.gameObjects[0]);
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_3) == GLFW_PRESS && !key3Pressed)
 	{
 		key3Pressed = true;
 		SwitchActiveFigure(GAMEOBJECT_MANAGER.gameObjects[1]);
 	}
 
-	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed && !TIME_MANAGER.GetPaused())
+	if (glfwGetKey(GL_MANAGER.window, GLFW_KEY_4) == GLFW_PRESS && !key4Pressed)
 	{
 		key4Pressed = true;
 		SwitchActiveFigure(GAMEOBJECT_MANAGER.gameObjects[2]);

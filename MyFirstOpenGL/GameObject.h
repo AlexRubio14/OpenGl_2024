@@ -37,17 +37,13 @@ public:
 		: transform(Transform()), velocity(0.01f), angularVelocity(1.f), scaleVelocity(1.f), isActive(true) {};
 
 	GameObject(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale)
-		: transform(Transform(_position, _rotation, _scale)), velocity(0.01f), angularVelocity(1.f), scaleVelocity(1.f), isActive(true) {};
+		: transform(Transform(_position, _rotation, _scale)), velocity(1.f), angularVelocity(100.f), scaleVelocity(100.f), isActive(true) {};
 
 	~GameObject();
 
 	virtual void Update(float _dt) = 0;
 
 	virtual void Render() = 0;
-
-	void Accelerate();
-
-	void Deccelerate();
 
 	inline std::vector<GLfloat> GetVertexs() const { return vertexs; }
 

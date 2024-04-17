@@ -14,29 +14,11 @@ void GameObjectManager::CreateFigures()
 	gameObjects.push_back(new Orthohedron(glm::vec3(0.f), glm::vec3(0.f, 0.f, 90.f), glm::vec3(1.f)));
 	gameObjects.push_back(new Pyramid(glm::vec3(0.6f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f)));
 }
-void GameObjectManager::AccelerateFigures()
-{
-	for (GameObject* gObj : gameObjects)
-	{
-		gObj->Accelerate();
-	}
-}
-
-void GameObjectManager::DeccelerateFigures()
-{
-	for(GameObject* gObj : gameObjects)
-	{
-		gObj->Deccelerate();
-	}
-}
 
 void GameObjectManager::Update(float _dt)
 {
 	for (GameObject* gObj : gameObjects) {
-		if (!TIME_MANAGER.GetPaused())
-		{
-			gObj->Update(_dt);
-		}
+		gObj->Update(_dt);
 	}
 }
 

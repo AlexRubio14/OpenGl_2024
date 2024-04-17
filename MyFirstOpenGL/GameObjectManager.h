@@ -29,9 +29,6 @@ public:
 
 	void CreateFigures();
 
-	void AccelerateFigures();
-	void DeccelerateFigures();
-
 	void Update(float _dt);
 	void Render();
 
