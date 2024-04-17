@@ -1,16 +1,10 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm.hpp>
-#include <gtc/type_ptr.hpp>
-#include <gtc/matrix_transform.hpp>
-
 #include "GLManager.h"
 #include "ShaderProgramManager.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
 #include "InputManager.h"
 
-void main() {
+int main() {
 
 	srand(static_cast<unsigned int>(time(NULL)));
 
@@ -26,25 +20,15 @@ void main() {
 
 		GAMEOBJECT_MANAGER.CreateFigures(); 
 
+
 		// Define wich color we use for cleaning buffer
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
 		// Define draw mode to -> Fill
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		GL_MANAGER.SetUpVaosAndVbos();
-
 		//Assign initial values to programs
-
-		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[0]);
-		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[0], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[1]);
-		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
-		glUniform1f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[1], "time"), TIME_MANAGER.GetCurrentTime());
-
-		glUseProgram(SHADERPROGRAM_MANAGER.compiledPrograms[2]);
-		glUniform2f(glGetUniformLocation(SHADERPROGRAM_MANAGER.compiledPrograms[2], "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
+		GAMEOBJECT_MANAGER.InitProgramsValues();
 
 		//Generate game loop
 		while (!glfwWindowShouldClose(GL_MANAGER.window)) {
@@ -55,10 +39,11 @@ void main() {
 			//Clean buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-			INPUT_MANAGER.Update(GAMEOBJECT_MANAGER.gameObjects);
+			INPUT_MANAGER.Update();
 			TIME_MANAGER.Update();
-
-			GAMEOBJECT_MANAGER.Draw(GL_MANAGER.vaos);
+			
+			GAMEOBJECT_MANAGER.Update(TIME_MANAGER.GetDeltaTime());
+			GAMEOBJECT_MANAGER.Render();
 
 			//Switch buffers
 			glFlush();
@@ -76,4 +61,6 @@ void main() {
 
 	//Finish GLFW
 	glfwTerminate();
+
+	return 0;
 }

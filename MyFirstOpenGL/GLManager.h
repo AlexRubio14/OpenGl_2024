@@ -13,7 +13,7 @@
 class GLManager {
 private:
 
-	GLManager();
+	GLManager() = default;
 
 	GLManager(const GLManager&) = delete;
 	GLManager& operator =(const GLManager&) = delete;
@@ -28,21 +28,10 @@ public:
 
 	GLFWwindow* window;
 
-	std::vector<GLuint> vaos;
-	std::vector<GLuint> vbos;
-	
 	void WindowsConfiguration();
 
 	void ActivateFrontCulling();
 	void ActivateBackCulling();
-
-	void InitializeVaoAndVbo(GLuint& _vao, GLuint& _vbo, const int _numVaos, const int _numVbos);
-
-	void VboConfiguration(GameObject* _gameObject, const int _numVbo, const int _dimensions = 3);
-
-	void VaoDesconfiguration(const int _numVao);
-
-	void SetUpVaosAndVbos();
 };
 
 void ResizeWindow(GLFWwindow* _window, int _iFrameBufferWidth, int _iFrameBufferHeight); 
