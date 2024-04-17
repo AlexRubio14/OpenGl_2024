@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
-#include "TimeManager.h"
 
 class Pyramid : public GameObject
 {
 private:
 
+	glm::mat4 rotationMatrixY;
 
 public:
 
@@ -26,31 +26,11 @@ public:
 		}; 
 	};
 
-	Pyramid(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale)
-		: GameObject(_position, _rotation, _scale) {
-
-		//Size (0.4 x 0.6 x 0.4)
-		vertexs = {
-			 +0.0f, +0.5f, +0.0f,
-				-0.2f, -0.5f, +0.2f,
-				+0.2f, -0.5f, +0.2f,
-				+0.2f, -0.5f, -0.2f,
-				-0.2f, -0.5f, -0.2f,
-				-0.2f, -0.5f, +0.2f,
-
-				// Triangle Strip
-				+0.2f, -0.5f, +0.2f,
-				-0.2f, -0.5f, +0.2f,
-				+0.2f, -0.5f, -0.2f,
-				-0.2f, -0.5f, -0.2f,
-		};
-
-	};
+	Pyramid(glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale);
 
 	virtual void Update(float _dt) override;
 
-	virtual void Draw(GLuint _vao) override;
+	virtual void Render() override;
 
-
-	virtual glm::mat4 ApplyModelMatrix() override;
+	void InitProgramValues() override;
 };

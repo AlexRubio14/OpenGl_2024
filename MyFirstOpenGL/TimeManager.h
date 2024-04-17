@@ -11,8 +11,7 @@ private:
 	float frameTime;
 	float currentTime;
 	float timeToReset;
-
-	bool paused;
+	float scaleTime;
 
 	TimeManager();	
 
@@ -29,7 +28,11 @@ public:
 
 	void Update();
 
+	void Pause();
+
+	void AccelerateScaleTime();
+	void DeclerateScaleTime();
+
 	inline float GetCurrentTime() const { return currentTime; }
-	inline bool GetPaused() const { return paused; }
-	inline void Pause() { paused = !paused; }
+	inline float GetDeltaTime() const { return deltaTime; }
 };
