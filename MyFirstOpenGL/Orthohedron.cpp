@@ -51,9 +51,9 @@ void Orthohedron::Update(float _dt)
 	transform.rotation = transform.rotation + (glm::vec3(0.f, 0.f, 1.f) * angularVelocity) * _dt;
 
 	if (transform.scale.y <= 0.3f)
-		scaleVelocity = 0.01f;
+		scaleVelocity = 1.f;
 	else if (transform.scale.y >= 1.f)
-		scaleVelocity = -0.01f;
+		scaleVelocity = -1.f;
 
 	transform.scale.y += scaleVelocity * _dt;
 
